@@ -1,2 +1,10 @@
 jamendo_api_credentials.conf
-
+*.pyc
+*.pyo
+*.swp
+*.un~
+*.sqlite
+*.db
+media.tar.gz
+media/
+env/
