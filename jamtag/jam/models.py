@@ -43,8 +43,9 @@ class ContentTrack(models.Model):
 
 
 class TagInfo(models.Model):
-    user = models.CharField(max_length=50)  # username Jamendo usera ili neki drugi identifikator
+    user = models.CharField(max_length=50, blank=True)  # username Jamendo usera ili neki drugi identifikator
     tag = models.ForeignKey('ContentTrack')
+    timestamp = models.DateTimeField()
     is_tagged = models.BooleanField()
     is_confirmed = models.BooleanField()
 
