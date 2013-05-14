@@ -5,6 +5,6 @@ jamendo_api_credentials.conf
 *.un~
 *.sqlite
 *.db
+*.sublime-workspace
 media.tar.gz
-media/
 env/
