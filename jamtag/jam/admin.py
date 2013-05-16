@@ -11,7 +11,6 @@ class ContentTrackInline(admin.StackedInline):
 class ContentAdmin(admin.ModelAdmin):
     inlines = (ContentTrackInline,)
 
-
 admin.site.register(Content, ContentAdmin)
 admin.site.register(Track)
 admin.site.register(TagInfo)

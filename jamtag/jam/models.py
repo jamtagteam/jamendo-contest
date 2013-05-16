@@ -11,7 +11,7 @@ class Content(models.Model):
         verbose_name_plural = _('Content units')
 
     def __unicode__(self):
-        pass
+        return self.title
 
 
 class Track(models.Model):
@@ -25,7 +25,7 @@ class Track(models.Model):
         verbose_name_plural = _('Tracks')
 
     def __unicode__(self):
-        pass
+        return self.name
 
 
 class ContentTrack(models.Model):
@@ -39,7 +39,7 @@ class ContentTrack(models.Model):
         ordering = ('times_tagged',)
 
     def __unicode__(self):
-        pass
+        return '{}-{}'.format(self.content, self.track)
 
 
 class TagInfo(models.Model):
@@ -54,7 +54,7 @@ class TagInfo(models.Model):
         verbose_name_plural = _('Tag information')
 
     def __unicode__(self):
-        pass
+        return 'Tagged by {} with {}'.format(self.user, self.tag)
 
 
 class URL(models.Model):
@@ -66,4 +66,4 @@ class URL(models.Model):
         verbose_name_plural = _('URLs')
 
     def __unicode__(self):
-        pass
+        return self.url
