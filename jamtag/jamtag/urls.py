@@ -12,10 +12,6 @@ api.register(ContentResource())
 api.register(TrackResource())
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'jamtag.views.home', name='home'),
-    # url(r'^jamtag/', include('jamtag.foo.urls')),
     url(r'^api/', include(api.urls)),
-
     url(r'^admin/', include(admin.site.urls)),
 )
