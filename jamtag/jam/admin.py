@@ -12,11 +12,7 @@ class ContentAdmin(admin.ModelAdmin):
     inlines = (ContentTrackInline,)
 
 
-class TrackAdmin(admin.ModelAdmin):
-    inlines = (ContentTrackInline,)
-
-
 admin.site.register(Content, ContentAdmin)
-admin.site.register(Track, TrackAdmin)
+admin.site.register(Track)
 admin.site.register(TagInfo)
 admin.site.register(URL)
