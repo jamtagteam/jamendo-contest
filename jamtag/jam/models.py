@@ -39,7 +39,7 @@ class ContentTrack(models.Model):
         ordering = ('times_tagged',)
 
     def __unicode__(self):
-        return '{}-{}'.format(self.content, self.track)
+        return u'{}-{}'.format(self.content, self.track)
 
 
 class TagInfo(models.Model):
@@ -54,7 +54,7 @@ class TagInfo(models.Model):
         verbose_name_plural = _('Tag information')
 
     def __unicode__(self):
-        return 'Tagged by {} with {}'.format(self.user, self.tag)
+        return u'Tagged by {} with {}'.format(self.user, self.tag)
 
 
 class URL(models.Model):
