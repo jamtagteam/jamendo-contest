@@ -7,8 +7,8 @@ class Content(models.Model):
     tracks = models.ManyToManyField('Track', verbose_name=_(u'track'), through='ContentTrack')
 
     class Meta:
-        verbose_name = _('Content')
-        verbose_name_plural = _('Content units')
+        verbose_name = _(u'Content')
+        verbose_name_plural = _(u'Content units')
 
     def __unicode__(self):
         return self.title
@@ -21,8 +21,8 @@ class Track(models.Model):
     audio = models.URLField(_(u'link to track'))
 
     class Meta:
-        verbose_name = _('Track')
-        verbose_name_plural = _('Tracks')
+        verbose_name = _(u'Track')
+        verbose_name_plural = _(u'Tracks')
 
     def __unicode__(self):
         return self.name
@@ -34,8 +34,8 @@ class ContentTrack(models.Model):
     times_tagged = models.IntegerField(default=1)  # postaje redundantno ali mozemo zadrzati radi orderinga
 
     class Meta:
-        verbose_name = _('Tagged content')
-        verbose_name_plural = _('Tagged content units')
+        verbose_name = _(u'Tagged content')
+        verbose_name_plural = _(u'Tagged content units')
         ordering = ('times_tagged',)
 
     def __unicode__(self):
@@ -50,8 +50,8 @@ class TagInfo(models.Model):
     is_confirmed = models.BooleanField()
 
     class Meta:
-        verbose_name = _('Tag information')
-        verbose_name_plural = _('Tag information')
+        verbose_name = _(u'Tag information')
+        verbose_name_plural = _(u'Tag information')
 
     def __unicode__(self):
         return u'Tagged by {} with {}'.format(self.user, self.tag)
@@ -62,8 +62,8 @@ class URL(models.Model):
     content = models.ForeignKey('Content')
 
     class Meta:
-        verbose_name = _('URL')
-        verbose_name_plural = _('URLs')
+        verbose_name = _(u'URL')
+        verbose_name_plural = _(u'URLs')
 
     def __unicode__(self):
         return self.url
