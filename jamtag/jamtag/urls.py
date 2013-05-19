@@ -6,9 +6,10 @@ admin.autodiscover()
 from tastypie.api import Api
 api = Api(api_name='v1')
 
-from jam.api import ContentResource, TrackResource
+from jam.api import ContentResource, TrackResource, URLResource
 api.register(ContentResource())
 api.register(TrackResource())
+api.register(URLResource())
 
 urlpatterns = patterns('',
     url(r'^api/', include(api.urls)),

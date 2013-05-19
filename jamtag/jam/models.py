@@ -45,7 +45,7 @@ class ContentTrack(models.Model):
 class TagInfo(models.Model):
     user = models.CharField(max_length=50, blank=True)  # username Jamendo usera ili neki drugi identifikator
     tag = models.ForeignKey('ContentTrack')
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     is_tagged = models.BooleanField()
     is_confirmed = models.BooleanField()
 
@@ -58,7 +58,7 @@ class TagInfo(models.Model):
 
 
 class URL(models.Model):
-    url = models.URLField(_(u'URL'), db_index=True)
+    url = models.URLField(_(u'URL'), db_index=True, unique=True)
     content = models.ForeignKey('Content')
 
     class Meta:
