@@ -3,6 +3,7 @@ from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
+from django.db.models import F
 from .models import Content, Track, ContentTrack, URL, TagInfo
 from tastypie.cache import SimpleCache
 
@@ -57,3 +58,27 @@ class ContentResource(ModelResource):
         authentication = Authentication()
         cache = SimpleCache()
         always_return_data = True
+
+
+class ContentTrackResource(ModelResource):
+    track = fields.ForeignKey(TrackResource, 'tracks', full=True, null=True, related_name='tracks')
+    content = fields.ForeignKey('jam.api.ContentResource', 'content', full=True, null=True)
+
+    class Meta:
+        queryset = ContentTrack.objects.all()
+        allowed_methods = ('get', 'post')
+        resource_name = 'tag'                   # nemam pojma da li vam odgovara ovo ime za resur, vidio sam da ga je Vanja imenovao tako u TagInfo
+        include_resource_uri = False
+        authorization = Authorization()
+        authentication = Authentication()
+        cache = SimpleCache()
+        always_return_data = True
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        if request.GET.get('confirm_tag'):
+            content = Content.objects.get(title=request.GET.get('title'))
+            track = Track.objects.get(id=request.GET.get('id'))
+            ct = ContentTrack.objects.filter(content=content, track=track)
+            ct.update(times_tagged=F('times_tagged')+1)                         # nasao na stackoverflowu i docsima F za update uvecanje vrijednosti
+            ct.save()
+            return super(ContentTrackResource, self).obj_create(bundle, request, ct=ct) # ovo je vjerojatno krivo ali cete mi morat objasnit zasto se gore vracao content i sto bi se ovdje trebalo vratiti :)
