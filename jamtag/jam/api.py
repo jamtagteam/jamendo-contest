@@ -79,6 +79,6 @@ class ContentTrackResource(ModelResource):
             content = Content.objects.get(title=request.GET.get('title'))
             track = Track.objects.get(id=request.GET.get('id'))
             ct = ContentTrack.objects.filter(content=content, track=track)
-            ct.update(times_tagged=F('times_tagged')+1)                         # nasao na stackoverflowu i docsima F za update uvecanje vrijednosti
+            ct.update(times_tagged=F('times_tagged')+1)                         # nasao na stackoverflowu i docsima F za update uvecanje vrijednosti cini se zgodno, ako je krivo sorry
             ct.save()
-            return super(ContentTrackResource, self).obj_create(bundle, request, ct=ct) # ovo je vjerojatno krivo ali cete mi morat objasnit zasto se gore vracao content i sto bi se ovdje trebalo vratiti :)
+            return super(ContentTrackResource, self).obj_create(bundle, request, ct=ct)  # ovo je vjerojatno krivo ali cete mi morat objasnit zasto se gore vracao content i sto bi se ovdje trebalo vratiti :)
