@@ -32,18 +32,21 @@ class URLResource(ModelResource):
         authentication = Authentication()
         cache = SimpleCache()
         always_return_data = True
+        filtering = {
+            'url': ('exact',),
+        }
 
-    def obj_create(self, bundle, request=None, **kwargs):
-        content = Content.objects.create(title=request.GET.get('title'))
+    def obj_create(self, bundle, **kwargs):
+        content = Content.objects.create(title=bundle.request.GET.get('title'))
         track = Track.objects.get_or_create(
-            id=int(request.GET.get('track_id')),
-            name=request.GET.get('name'),
-            artist_name=request.GET.get('artist_name'),
-            audio=request.GET.get('audio')
+            id=int(bundle.request.GET.get('track_id')),
+            name=bundle.request.GET.get('name'),
+            artist_name=bundle.request.GET.get('artist_name'),
+            audio=bundle.request.GET.get('audio')
         )
-        ct = ContentTrack.objects.create(track=track, content=content)
-        TagInfo.objects.create(tag=ct, is_tagged=True, is_confirmed=False, user=request.GET.get('user'))
-        return super(URLResource, self).obj_create(bundle, request, content=content)
+        ct = ContentTrack.objects.create(track=track[0], content=content)
+        TagInfo.objects.create(tag=ct, is_tagged=True, is_confirmed=False, user=bundle.request.GET.get('user', u''))
+        return super(URLResource, self).obj_create(bundle, content=content)
 
 
 class ContentResource(ModelResource):
@@ -74,19 +77,20 @@ class ContentTrackResource(ModelResource):
         cache = SimpleCache()
         always_return_data = True
 
-    def obj_create(self, bundle, request=None, **kwargs):
+    def obj_create(self, bundle, **kwargs):
         track = Track.objects.get_or_create(
-            id=int(request.GET.get('track_id')),
-            name=request.GET.get('name'),
-            artist_name=request.GET.get('artist_name'),
-            audio=request.GET.get('audio')
+            id=int(bundle.request.GET.get('track_id')),
+            name=bundle.request.GET.get('name'),
+            artist_name=bundle.request.GET.get('artist_name'),
+            audio=bundle.request.GET.get('audio')
         )
-        bundle = super(ContentTrackResource, self).obj_create(bundle, request, content_id=request.GET.get('content_id'), track_id=track.id)
+        # FIXME: there's a bug here with passing content as an id, content resource can't be passed since there is no resource url
+        bundle = super(ContentTrackResource, self).obj_create(bundle, track=track[0])
         TagInfo.objects.create(
             tag=bundle.obj,
             is_tagged=True,
             is_confirmed=False,
-            user=request.GET.get('user')
+            user=bundle.request.GET.get('user', u'')
         )
         return bundle
 
@@ -96,7 +100,7 @@ class TagInfoResource(ModelResource):
 
     class Meta:
         queryset = TagInfo.objects.all()
-        allowed_methods = ('get',)
+        allowed_methods = ('get', 'post',)
         resource_name = 'taginfo'
         include_resource_uri = False
         authorization = Authorization()
@@ -104,8 +108,9 @@ class TagInfoResource(ModelResource):
         cache = SimpleCache()
         always_return_data = True
 
-    def obj_create(self, bundle, request=None, **kwargs):
-        ct = ContentTrack.objects.select_for_update().get(id=request.GET.get('id'))
+    def obj_create(self, bundle, **kwargs):
+        print int(bundle.request.GET.get('id'))
+        ct = ContentTrack.objects.select_for_update().get(id=int(bundle.request.GET.get('id')))
         ct.times_tagged += 1
         ct.save()
-        return super(TagInfoResource, self).obj_create(bundle, request, user=request.GET.get('user'), tag=ct, is_tagged=False, is_confirmed=True)
+        return super(TagInfoResource, self).obj_create(bundle, tag=ct)
