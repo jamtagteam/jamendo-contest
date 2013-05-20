@@ -100,3 +100,24 @@ class ContentTrackResource(ModelResource):
             user=request.GET.get('user')
         )
         return bundle
+
+
+class TagInfoResource(ModelResource):
+    tag = fields.ForeignKey(ContentTrackResource, 'tag', full=True)
+
+    class Meta:
+        queryset = TagInfo.objects.all()
+        allowed_methods = ('get',)
+        resource_name = 'taginfo'
+        include_resource_uri = False
+        authorization = Authorization()
+        authentication = Authentication()
+        cache = SimpleCache()
+        always_return_data = True
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        if request.GET.get('tag_confirmed'):
+            ct = ContentTrack.objects.select_for_update().filter(content_id=request.GET.get('content_id'), track_id=request.GET.get('track_id'))
+            ct.times_tagged += 1
+            ct.save()
+            return super(TagInfoResource, self).obj_create(bundle, request, user=request.GET.get('user'), tag=ct, is_tagged=False, is_confirmed=True)
