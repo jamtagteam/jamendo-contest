@@ -36,7 +36,7 @@ class URLResource(ModelResource):
     def obj_create(self, bundle, request=None, **kwargs):
         content = Content.objects.create(title=request.GET.get('title'))
         track = Track.objects.get_or_create(
-            id=request.GET.get('id'),
+            id=int(request.GET.get('track_id')),
             name=request.GET.get('name'),
             artist_name=request.GET.get('artist_name'),
             audio=request.GET.get('audio')
@@ -75,10 +75,17 @@ class ContentTrackResource(ModelResource):
         always_return_data = True
 
     def obj_create(self, bundle, request=None, **kwargs):
-        bundle = super(ContentTrackResource, self).obj_create(bundle, request, content_id=request.GET.get('content_id'), track_id=request.GET.get('track_id'))
+        track = Track.objects.get_or_create(
+            id=int(request.GET.get('track_id')),
+            name=request.GET.get('name'),
+            artist_name=request.GET.get('artist_name'),
+            audio=request.GET.get('audio')
+        )
+        bundle = super(ContentTrackResource, self).obj_create(bundle, request, content_id=request.GET.get('content_id'), track_id=track.id)
         TagInfo.objects.create(
             tag=bundle.obj,
             is_tagged=True,
             is_confirmed=False,
+            user=request.GET.get('user')
         )
         return bundle
