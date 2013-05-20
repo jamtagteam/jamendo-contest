@@ -61,13 +61,13 @@ class ContentResource(ModelResource):
 
 
 class ContentTrackResource(ModelResource):
-    track = fields.ForeignKey(TrackResource, 'tracks', full=True, null=True, related_name='tracks')
-    content = fields.ForeignKey('jam.api.ContentResource', 'content', full=True, null=True)
+    track = fields.ForeignKey(TrackResource, 'track', full=True, null=True, related_name='track')
+    content = fields.ForeignKey(ContentResource, 'content', full=True, null=True, related_name='content')
 
     class Meta:
         queryset = ContentTrack.objects.all()
         allowed_methods = ('get', 'post')
-        resource_name = 'tag'                   # nemam pojma da li vam odgovara ovo ime za resur, vidio sam da ga je Vanja imenovao tako u TagInfo
+        resource_name = 'tag'
         include_resource_uri = False
         authorization = Authorization()
         authentication = Authentication()
@@ -75,10 +75,10 @@ class ContentTrackResource(ModelResource):
         always_return_data = True
 
     def obj_create(self, bundle, request=None, **kwargs):
-        if request.GET.get('confirm_tag'):
-            content = Content.objects.get(title=request.GET.get('title'))
-            track = Track.objects.get(id=request.GET.get('id'))
-            ct = ContentTrack.objects.filter(content=content, track=track)
-            ct.update(times_tagged=F('times_tagged')+1)                         # nasao na stackoverflowu i docsima F za update uvecanje vrijednosti cini se zgodno, ako je krivo sorry
-            ct.save()
-            return super(ContentTrackResource, self).obj_create(bundle, request, ct=ct)  # ovo je vjerojatno krivo ali cete mi morat objasnit zasto se gore vracao content i sto bi se ovdje trebalo vratiti :)
+        bundle = super(ContentTrackResource, self).obj_create(bundle, request, content_id=request.GET.get('content_id'), track_id=request.GET.get('track_id'))
+        TagInfo.objects.create(
+            tag=bundle.obj,
+            is_tagged=True,
+            is_confirmed=False,
+        )
+        return bundle
