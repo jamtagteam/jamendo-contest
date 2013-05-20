@@ -84,7 +84,6 @@ class ContentTrackResource(ModelResource):
             artist_name=bundle.request.GET.get('artist_name'),
             audio=bundle.request.GET.get('audio')
         )
-        # FIXME: there's a bug here with passing content as an id, content resource can't be passed since there is no resource url
         bundle = super(ContentTrackResource, self).obj_create(bundle, track=track[0])
         TagInfo.objects.create(
             tag=bundle.obj,
