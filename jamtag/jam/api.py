@@ -89,3 +89,14 @@ class ContentTrackResource(ModelResource):
             user=request.GET.get('user')
         )
         return bundle
+
+    def obj_update(self, bundle, request=None, **kwargs):
+        ct = ContentTrack.objects.select_for_update().filter(content_id=request.GET.get('content_id'), track_id=request.GET.get('track_id'))
+        bundle = super(ContentTrackResource, self).obj_create(bundle, request, times_tagged=ct.times_tagged + 1)
+        TagInfo.objects.create(
+            tag=bundle.obj,
+            is_tagged=False,
+            is_confirmed=True,
+            user=request.GET.get('user')
+        )
+        return bundle
