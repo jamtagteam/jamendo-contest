@@ -1,0 +1,55 @@
+#jamendo-bar{
+    margin: 0 auto;
+    width: 70%;
+    background: url("../img/bg.png") no-repeat scroll -19px transparent;
+    color: #FFF;
+    height: 72px;
+}
+#search-bar a{
+    text-decoration: none;
+    color: #FFF;
+}
+#search-bar form{
+    margin-bottom: 30px;
+}
+.jam-search{
+        width: 200px;
+        background: none;
+        border: 1px solid #F739DB;
+        color: #FFF;
+        margin-bottom: 3px;
+}
+#jamendo-search-results{
+    width: 200px;
+}
+#jamendo-search-results ul li{
+    list-style: none;
+}
+
+/*
+#search-bar{
+    margin: 30px 0 0 15px;
+    float: left;
+}
+*/
+#tag-button, #confirm-button{
+    font-size: 12px;
+    float: left;
+    padding: 0 5px;
+    border: 1px solid #F739DB;
+}
+#confirm-button{
+    margin-left: 5px;
+}
+#jam-search-button{
+    float: right;
+    font-size: 16px;
+    padding: 0 5px;
+    color: #FFF;
+    background: none;
+    border: 1px solid #F739DB;
+}
+#player{
+    float: right;
+}
+
