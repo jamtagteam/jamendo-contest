@@ -11,7 +11,7 @@ $(function() {
             return data.objects;
         },
         findAll: function(params){
-            var url = ''; 
+            var url = '';
             if (params.location) {
                 url = params.location;
             }
@@ -29,26 +29,32 @@ $(function() {
             URL.findAll(
                 {location: location},
                 function (urls) {
-                    // what happens when there are no tracks 
-                    var playlist = []
-                    $.each($(urls).attr('content').tracks, function(i, track){
-                        var song = {
-                            title: track.name,
-                            //oga: track.audio,
-                            mp3: track.audio,
-                        }
-                        playlist.push(song);
-                    })
-                    new jPlayerPlaylist({
-                        jPlayer: "#jquery_jplayer_1",
-                        cssSelectorAncestor: "#jp_container_1"
-                    }, playlist, {
-                        swfPath: api.static + "js/lib/jPlayer",
-                        supplied: "mp3",
-                        wmode: "window",
-                        smoothPlayBar: true,
-                        keyEnabled: true
-                    });
+                    // what happens when there are no tracks
+                    console.log(urls)
+                    if (urls == []){
+                        var playlist = []
+                        $.each($(urls).attr('content').tracks, function(i, track){
+                            var song = {
+                                title: track.name,
+                                //oga: track.audio,
+                                mp3: track.audio,
+                            }
+                            playlist.push(song);
+                        })
+                        new jPlayerPlaylist({
+                            jPlayer: "#jquery_jplayer_1",
+                            cssSelectorAncestor: "#jp_container_1"
+                        }, playlist, {
+                            swfPath: api.static + "js/lib/jPlayer",
+                            supplied: "mp3",
+                            wmode: "window",
+                            smoothPlayBar: true,
+                            keyEnabled: true
+                        });
+                    }
+                    else{
+                        self.element.html('whatevs');
+                    }
                 }
             );
             this.on($(document), '#search', 'click', 'searchJamendo');

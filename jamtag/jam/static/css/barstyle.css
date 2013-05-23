@@ -35,7 +35,7 @@
 #tag-button, #confirm-button{
     font-size: 12px;
     float: left;
-    padding: 0 5px;
+    padding: 0 3px;
     border: 1px solid #F739DB;
 }
 #confirm-button{
@@ -43,8 +43,8 @@
 }
 #jam-search-button{
     float: right;
-    font-size: 16px;
-    padding: 0 5px;
+    font-size: 13px;
+    padding: 1px 5px;
     color: #FFF;
     background: none;
     border: 1px solid #F739DB;
