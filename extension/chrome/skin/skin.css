@@ -1,0 +1,6 @@
+#jamtag-button {
+    list-style-image: url(chrome://jamtag/skin/jamtag-icon-24.png);
+}
+toolbar[iconsize="small"] #jamtag-button {
+    list-style-image: url(chrome://jamtag/skin/jamtag-icon-16.png);
+}

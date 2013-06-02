@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type"text/css" ?>
+<?xml-stylesheet href="css/jPlayer/pink.flag/jplayer.pink.flag.css" type"text/css" ?>
+<?xml-stylesheet href="css/barstyle.css" type"text/css" ?>
+<!DOCTYPE page SYSTEM "chrome://jamtag/locale/jamtag.dtd">
+
+<window id="sbJamTagSidebar" title="&jamtagsidebar.title;" style="background-color:#3a2a45;" xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" >
+
+    <script type="application/x-javascript" src="chrome://jamtag/content/jamtag.js"></script>
+
+    <script type="application/x-javascript">
+        api = {
+            "static": "",
+            "format": "?format=json"
+        };
+    </script>
+    <script language="JavaScript" type="application/x-javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script language="JavaScript" type="application/x-javascript" src="chrome://jamtag/content/js/lib/can.jquery.min.js"></script>
+    <script language="JavaScript" type="application/x-javascript" src="chrome://jamtag/content/js/lib/jPlayer/jquery.jplayer.min.js"></script>
+    <script language="JavaScript" type="application/x-javascript" src="chrome://jamtag/content/js/lib/jPlayer/add-on/jplayer.playlist.min.js"></script>
+    <script language="JavaScript" type="application/x-javascript" src="chrome://jamtag/content/js/main.js"></script>
+
+    <hbox align="center">
+        <label value="URL:" style="width: 30px; color: white;" /><textbox id="tag_url" value="" readonly="true" />
+    </hbox>
+    <hbox align="center">
+        <label value="Title:" style="width: 30px; color: white;" /><textbox id="tag_title" value="" readonly="true" />
+    </hbox>
+
+    <html:div id="tracks"></html:div>
+
+    <html:div id="jquery_jplayer_1" class="jp-jplayer"></html:div>
+     <html:div id="jp_container_1" class="jp-audio">
+        <html:div class="jp-type-playhtml:list">
+            <html:div id="search-bar">
+                <html:form method="GET" action="." target="window._content.document">
+                    <html:input type="search" name="jamendo-search" class="jam-search"/>
+                    <html:span id="tag-button">
+                        <a href="" class="sidebar-button">add tag</a>
+                    </html:span>
+                    <html:span id="confirm-button">
+                        <a href="" class="sidebar-button">confirm tag</a>
+                    </html:span>
+                    <html:input type="submit" value="search" id="jam-search-button"/>
+                </html:form>
+            </html:div>
+            <html:div id="jamendo-search-reshtml:ults">
+                <html:ul id="reshtml:ult-html:list">
+                    <html:li id="reshtml:ult-songs">songs</html:li>
+                </html:ul>
+            </html:div>
+            <html:div class="jp-gui jp-interface">
+                <html:ul class="jp-controls">
+                    <html:li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-play" tabindex="1">play</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-next" tabindex="1">next</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></html:li>
+                </html:ul>
+                <html:div class="jp-progress">
+                    <html:div class="jp-seek-bar">
+                        <html:div class="jp-play-bar"></html:div>
+                    </html:div>
+                </html:div>
+                <html:div class="jp-volume-bar">
+                    <html:div class="jp-volume-bar-value"></html:div>
+                </html:div>
+                <html:div class="jp-time-holder">
+                    <html:div class="jp-current-time"></html:div>
+                    <html:div class="jp-duration"></html:div>
+                </html:div>
+                <html:ul class="jp-toggles">
+                    <html:li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></html:li>
+                    <html:li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></html:li>
+                </html:ul>
+            </html:div>
+            <html:div class="jp-playhtml:list">
+                <html:ul>
+                    <html:li></html:li>
+                </html:ul>
+            </html:div>
+            <html:div class="jp-no-solution">
+                <html:span>Update Required</html:span>
+                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+            </html:div>
+        </html:div>
+    </html:div>
+
+</window>
