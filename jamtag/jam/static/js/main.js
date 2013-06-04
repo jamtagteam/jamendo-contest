@@ -19,6 +19,14 @@ jamList.option("enableRemoveControls", true);
 
 var trackingTracks = []; //variable for tracking all track info that we have in our or jamendos api, should be indexed like players playlist
 
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
 $(function() {
     var URL = can.Model({
         //findAll : 'GET /api/v1/url/' + api.format,
@@ -176,23 +184,25 @@ $(function() {
         },
         searchJamendo: function(el, ev) {
             ev.preventDefault();
-            if ($('.jam-search').val()){
+            delay(function(){
+                if ($('.jam-search').val()){
 
-                // TODO  remove api info from variables and include them via some conf file
-                var srch = $('.jam-search').val()
-                jamendo.findAll(
-                    {srch: srch},
-                    function(results){
-                        $('#result-list').empty();
-                        console.log(results)  // to see complete results
-                        console.log($(results).attr('name'));
+                    // TODO  remove api info from variables and include them via some conf file
+                    var srch = $('.jam-search').val()
+                    jamendo.findAll(
+                        {srch: srch},
+                        function(results){
+                            $('#result-list').empty();
+                            console.log(results)  // to see complete results
+                            console.log($(results).attr('name'));
 
-                        $.each($(results), function(i, track){
-                            $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'">Song:'+track.name+'</a></span></p></li>');
-                        });
-                    }
-                );
-            }
+                            $.each($(results), function(i, track){
+                                $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'">Song:'+track.name+'</a></span></p></li>');
+                            });
+                        }
+                    );
+                }
+            }, 1000);
         },
         loadSong: function(el, ev){
             ev.preventDefault();
