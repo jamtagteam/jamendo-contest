@@ -5,12 +5,15 @@
     color: #FFF;
     height: 72px;
 }
-#search-bar a{
+#tags a{
     text-decoration: none;
     color: #FFF;
 }
 #search-bar form{
-    margin-bottom: 30px;
+    margin: 0;
+}
+#tags{
+    margin-bottom: 25px;
 }
 .jam-search{
         width: 200px;
@@ -23,7 +26,7 @@
     width: 200px;
     font-size: 9px;
     color: #fff;
-    margin-bottom: 6px;
+    margin: 15px 0;
 }
 #result-list a{
     text-decoration: none;
@@ -54,24 +57,16 @@
     float: left;
 }
 */
-#tag-button, #confirm-button{
+#tag-button, #confirm{
     font-size: 12px;
     float: left;
     padding: 0 3px;
     border: 1px solid #B3B27B;
 }
-#confirm-button{
+#confirm{
     margin-left: 5px;
-}
-#jam-search-button{
-    float: right;
-    font-size: 13px;
-    padding: 1px 5px;
-    color: #FFF;
-    background: none;
-    border: 1px solid #B3B27B;
 }
 #player{
     float: right;
 }
-#
+

@@ -11,6 +11,14 @@ if (!String.prototype.format) {
 
 //'{0} says {1}'.format('Chubz', 'hello');
 
+var cssSelector = {jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_1"};
+var playlist = [];
+var options = {swfPath: api.static + "js/lib/jPlayer", supplied: "mp3", wmode: "window", smoothPlayBar: true, keyEnabled: true};
+var jamList = new jPlayerPlaylist(cssSelector, playlist, options);
+jamList.option("enableRemoveControls", true);
+
+var trackingTracks = []; //variable for tracking all track info that we have in our or jamendos api, should be indexed like players playlist
+
 $(function() {
     var URL = can.Model({
         //findAll : 'GET /api/v1/url/' + api.format,
@@ -31,6 +39,23 @@ $(function() {
                 type: 'get',
                 dataType: 'json',
             });
+        },
+        create: function(params){
+            var data = JSON.stringify({
+                title: params.title,
+                track_id: params.id,
+                name: params.name,
+                artist_name: params.artist_name,
+                audio: params.audio,
+            });
+            return $.ajax({
+                url: '/api/v1/url/',
+                type: 'POST',
+                dcontentType: 'application/json',
+                data: data,
+                dataType: 'json',
+                processData: false
+            });
         }
     },{});
 
@@ -44,7 +69,7 @@ $(function() {
             return data.results;
         },
         findAll: function(params){
-            var clid = 'b6747d04'   // client id for read api testing provided by jamendo
+            var clid = '62d2eee4'   // client id for read api testing provided by jamendo for me!
             var frmt = 'jsonpretty'
             var lmt = 6
             var grpby = 'artist_id'
@@ -62,7 +87,56 @@ $(function() {
         }
     },{});
 
+    var tagInfo = can.Model({
+        models: function(data){
+            return data.objects;
+        },
+        create: function(params){
+            var data = JSON.stringify({
+                user: 'unibrow',
+                tag: params.ct_id,  // this should be ContentTrack id, needed by our api for updating the counter in create
+                is_tagged: false,
+                is_confirmed: true,
+            });
+            return $.ajax({
+                url: '/api/v1/taginfo/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: data,
+                dataType: 'json',
+                processData: false
+            });
+            return null;
+        }
+    }, {});
 
+    var contentTrack = can.Model({
+        models: function(data){
+            return data.objects;
+        },
+        findOne: function(params){
+            return null;
+        },
+        create: function(params){
+            var track_id = parseInt(params.track_id);
+            var name = params.name;
+            var artist_name = params.artist_name;
+            var audio = params.audio;
+            var data = JSON.stringify({
+                track_id: parseInt(params.track_id),
+                name: params.name,
+                artist_name: params.artist_name,
+                audio: params.audio,
+            })
+            return $.ajax({
+                url: '/api/v1/tag/?track_id={0}&name={1}&artist_name={2}&audio={3}'.format(track_id,name,artist_name,audio),
+                type: 'POST',
+                contentType: 'application/json',
+                data: data,
+                dataType: 'json',
+            });
+        }
+    }, {});
 
     var URLs = can.Control({
         init: function(element, options) {
@@ -73,51 +147,32 @@ $(function() {
                     // what happens when there are no tracks
                     console.log(urls)
                     if (urls.length !== 0){
-                        var playlist = []
                         $.each($(urls).attr('content').tracks, function(i, track){
                             var song = {
                                 title: track.name,
                                 //oga: track.audio,
                                 mp3: track.audio,
                             }
-                            playlist.push(song);
+                            jamList.add(song);
+                            trackingTracks.push(track);
+                            $('#tag-button').addClass('tag-existing');
                         })
-                        new jPlayerPlaylist({
-                            jPlayer: "#jquery_jplayer_1",
-                            cssSelectorAncestor: "#jp_container_1"
-                        }, playlist, {
-                            swfPath: api.static + "js/lib/jPlayer",
-                            supplied: "mp3",
-                            wmode: "window",
-                            smoothPlayBar: true,
-                            keyEnabled: true
-                        });
                     }
                     else{
-                        var playlist = []
                         var msg = {
                             title: 'Please tag this adress!',
                             mp3: null,
                         }
-                        playlist.push(msg);
-                        new jPlayerPlaylist({
-                            jPlayer: "#jquery_jplayer_1",
-                            cssSelectorAncestor: "#jp_container_1"
-                        }, playlist, {
-                            swfPath: api.static + "js/lib/jPlayer",
-                            supplied: "mp3",
-                            wmode: "window",
-                            smoothPlayBar: true,
-                            keyEnabled: true
-                        });
+                        $('#tag-button').addClass('tag-new');
+                        jamList.add(msg);
                     }
                 }
             );
             this.on($(document), '.jam-search', 'keyup', 'searchJamendo'); //bilo bi fora da se popunjava bez search btna
             this.on($(document), '.track-url', 'click', 'loadSong');
             this.on($(document), '#confirm', 'click', 'confirmTag');
-            this.on($(document), '#tag-existing', 'click', 'tagExisting');
-            this.on($(document), '#tag-new', 'click', 'tagNew');
+            this.on($(document), '.tag-existing', 'click', 'tagExisting');
+            this.on($(document), '.tag-new', 'click', 'tagNew');
         },
         searchJamendo: function(el, ev) {
             ev.preventDefault();
@@ -133,7 +188,7 @@ $(function() {
                         console.log($(results).attr('name'));
 
                         $.each($(results), function(i, track){
-                            $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" id="'+track.id+'">Song:'+track.name+'</a></span></p></li>');
+                            $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'">Song:'+track.name+'</a></span></p></li>');
                         });
                     }
                 );
@@ -141,26 +196,35 @@ $(function() {
         },
         loadSong: function(el, ev){
             ev.preventDefault();
-            // add to playlist
-            /*
-            jPlayerPlaylist.add({
-                title: $(el).html(),
+            var track = {
+                track_id: $(el).attr('data-song-id'),
+                name: $(el).attr('data-song-name'),
+                artist_name: $(el).attr('data-artist-name'),
+                audio: $(el).attr('href')
+            }
+            jamList.add({
+                title: $(el).attr('data-song-name'),
                 mp3: $(el).attr('href')
-            });
-            */
-            console.log(jPlayer.jPlayerPlaylist.add());
+            }, true);
+            trackingTracks.push(track);
         },
         confirmTag: function(el, ev) {
             ev.preventDefault();
-            // URL.createTagInfo
+            console.log(jamList.current);
+            console.log(jamList.playlist[jamList.current]);
+
         },
         tagExisting: function(el, ev) {
             ev.preventDefault();
+            var tagTrack = trackingTracks[jamList.current]
+            var tag = new contentTrack(tagTrack);
+            tag.save()
             // URL.createContentTrack
         },
         tagNew: function(el, ev) {
             ev.preventDefault();
             // URL.create
+
         }
     });
     var location = window.location.href;

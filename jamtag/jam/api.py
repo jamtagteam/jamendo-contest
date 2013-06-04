@@ -3,7 +3,6 @@ from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
-from django.db.models import F
 from .models import Content, Track, ContentTrack, URL, TagInfo
 from tastypie.cache import SimpleCache
 
@@ -75,11 +74,13 @@ class ContentTrackResource(ModelResource):
         authorization = Authorization()
         authentication = Authentication()
         cache = SimpleCache()
-        always_return_data = True
+        always_return_data = False
 
     def obj_create(self, bundle, **kwargs):
+        print bundle.request.GET
+        print type(bundle.request.GET.get('audio'))
         track = Track.objects.get_or_create(
-            id=int(bundle.request.GET.get('track_id')),
+            id=bundle.request.GET.get('track_id'),
             name=bundle.request.GET.get('name'),
             artist_name=bundle.request.GET.get('artist_name'),
             audio=bundle.request.GET.get('audio')
