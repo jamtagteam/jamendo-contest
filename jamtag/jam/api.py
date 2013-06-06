@@ -49,7 +49,8 @@ class URLResource(ModelResource):
 
 
 class ContentResource(ModelResource):
-    tracks = fields.ManyToManyField(TrackResource, 'tracks', full=True, null=True, related_name='tracks')
+    #tracks = fields.ManyToManyField(TrackResource, 'tracks', full=True, null=True, related_name='tracks')
+    tracks = fields.ManyToManyField('jam.api.ContentTrackResource', attribute=lambda bundle: bundle.obj.tracks.through.objects.filter(content=bundle.obj) or bundle.obj.tracks, full=True)
 
     class Meta:
         queryset = Content.objects.all()
@@ -64,7 +65,7 @@ class ContentResource(ModelResource):
 
 class ContentTrackResource(ModelResource):
     track = fields.ForeignKey(TrackResource, 'track', full=True, null=True, related_name='track')
-    content = fields.ForeignKey(ContentResource, 'content', full=True, null=True, related_name='content')
+    #content = fields.ForeignKey(ContentResource, 'content', full=True, null=True, related_name='content')
 
     class Meta:
         queryset = ContentTrack.objects.all()
@@ -94,7 +95,7 @@ class ContentTrackResource(ModelResource):
 
 
 class TagInfoResource(ModelResource):
-    tag = fields.ForeignKey(ContentTrackResource, 'tag', full=True)
+    tag = fields.ForeignKey(ContentTrackResource, 'tag', full=True, null=True)
 
     class Meta:
         queryset = TagInfo.objects.all()
@@ -107,7 +108,6 @@ class TagInfoResource(ModelResource):
         always_return_data = True
 
     def obj_create(self, bundle, **kwargs):
-        print int(bundle.request.GET.get('id'))
         ct = ContentTrack.objects.select_for_update().get(id=int(bundle.request.GET.get('id')))
         ct.times_tagged += 1
         ct.save()

@@ -54,20 +54,22 @@ $(function() {
             });
         },
         create: function(params){
-            var data = JSON.stringify({
-                title: params.title,
-                track_id: params.id,
+            var getData = $.param({
+                title: window.document.title,
+                user: 'unibrow',
+                track_id: params.track_id,
                 name: params.name,
                 artist_name: params.artist_name,
                 audio: params.audio,
             });
+            var postData = JSON.stringify({'url': location});
             return $.ajax({
-                url: '/api/v1/url/',
+                url: '/api/v1/url/' + api.format + getData,
                 type: 'POST',
-                dcontentType: 'application/json',
-                data: data,
+                contentType: 'application/json',
+                data: postData,
                 dataType: 'json',
-                processData: false
+                async: false
             });
         }
     },{});
@@ -106,21 +108,17 @@ $(function() {
             return data.objects;
         },
         create: function(params){
-            var data = JSON.stringify({
-                user: 'unibrow',
-                tag: params.ct_id,  // this should be ContentTrack id, needed by our api for updating the counter in create
-                is_tagged: false,
-                is_confirmed: true,
-            });
+            console.log(params);
+            var getData = $.param({id: params.id});
+            var postData = JSON.stringify({is_tagged: false, is_confirmed: true, user: 'unibrow'});
             return $.ajax({
-                url: '/api/v1/taginfo/',
+                url: '/api/v1/taginfo/' + api.format + getData,
                 type: 'POST',
                 contentType: 'application/json',
-                data: data,
+                data: postData,
                 dataType: 'json',
-                processData: false
+                async: false
             });
-            return null;
         }
     }, {});
 
@@ -138,7 +136,6 @@ $(function() {
                 artist_name: params.artist_name,
                 audio: params.audio,
             });
-            console.log(api.resource);
             var postData = JSON.stringify({content: api.resource});
             return $.ajax({
                 url: '/api/v1/tag/' + api.format + getData,
@@ -161,9 +158,9 @@ $(function() {
                     if (urls.length !== 0){
                         $.each($(urls).attr('content').tracks, function(i, track){
                             var song = {
-                                title: track.name,
+                                title: track.track.name,
                                 //oga: track.audio,
-                                mp3: track.audio,
+                                mp3: track.track.audio,
                             }
                             jamList.add(song);
                             trackingTracks.push(track);
@@ -179,7 +176,7 @@ $(function() {
                             mp3: null,
                         }
                         $('#tag-button').addClass('tag-new');
-                        jamList.add(msg);
+                        //jamList.add(msg);
                     }
                 }
             );
@@ -224,21 +221,18 @@ $(function() {
         },
         confirmTag: function(el, ev) {
             ev.preventDefault();
-            console.log(jamList.current);
-            console.log(jamList.playlist[jamList.current]);
-
+            tagInfo.create(trackingTracks[jamList.current]);
         },
         tagExisting: function(el, ev) {
             ev.preventDefault();
-            var tagTrack = trackingTracks[jamList.current];
-            var tag = new contentTrack(tagTrack);
+            var tag = new contentTrack(trackingTracks[jamList.current]);
             tag.save()
-            // URL.createContentTrack
         },
         tagNew: function(el, ev) {
             ev.preventDefault();
-            // URL.create
-
+            console.log(jamList.current);
+            console.log(trackingTracks[jamList.current]);
+            URL.create(trackingTracks[jamList.current]);
         }
     });
     var location = window.location.href;
