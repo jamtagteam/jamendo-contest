@@ -77,8 +77,6 @@ class ContentTrackResource(ModelResource):
         always_return_data = False
 
     def obj_create(self, bundle, **kwargs):
-        print bundle.request.GET
-        print type(bundle.request.GET.get('audio'))
         track = Track.objects.get_or_create(
             id=bundle.request.GET.get('track_id'),
             name=bundle.request.GET.get('name'),
