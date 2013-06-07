@@ -1,19 +1,31 @@
-<?xml version="1.0"?>
-<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
-         xmlns:NC="http://home.netscape.com/NC-rdf#"
-         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$41y0G2"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1"
-                   em:maxVersion="24.0" />
-  <RDF:Description RDF:about="urn:mozilla:install-manifest"
-                   em:id="developers@jamtag.org"
-                   em:name="JamTag"
-                   em:version="1.0"
-                   em:creator="JamTag Team; http://team.jamtag.org"
-                   em:description="Jamendo web tagger"
-                   em:homepageURL="http://www.jamtag.org"
-                   em:iconURL="chrome://jamtag/content/icon.png">
-    <em:targetApplication RDF:resource="rdf:#$41y0G2"/>
-  </RDF:Description>
-</RDF:RDF>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. --><RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>jamtag@jetpack</em:id>
+    <em:version>1.0.0</em:version>
+    <em:type>2</em:type>
+    <em:bootstrap>true</em:bootstrap>
+    <em:unpack>false</em:unpack>
+
+    <!-- Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>19.0</em:minVersion>
+        <em:maxVersion>20.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- Front End MetaData -->
+    <em:name>JamTag</em:name>
+    <em:description>Jamendo web tagger</em:description>
+    <em:creator>JamTag Team; http://team.jamtag.org</em:creator>
+    <em:homepageURL>http://www.jamtag.org</em:homepageURL>
+    <em:iconURL>http://www.jamtag.org/icon.png</em:iconURL>
+    
+    
+    
+  </Description>
+</RDF>
