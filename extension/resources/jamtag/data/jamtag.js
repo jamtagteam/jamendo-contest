@@ -1,7 +1,7 @@
 // When the user hits return, send the "text-entered"
 // message to main.js.
 // The message payload is the contents of the edit box.
-var searchBox = document.getElementById("search-box");
+var searchBox = $("#search-box");
 /*textArea.addEventListener('keyup', function onkeyup(event) {
   if (event.keyCode == 13) {
     // Remove the newline.
@@ -10,7 +10,7 @@ var searchBox = document.getElementById("search-box");
     textArea.value = '';
   }
 }, false);*/
- 
+
 // Listen for the "show" event being sent from the
 // main add-on code. It means that the panel's about
 // to be shown.
@@ -19,4 +19,11 @@ var searchBox = document.getElementById("search-box");
 // just start typing.
 self.port.on("show", function onShow() {
   searchBox.focus();
+  $("#result-songs").html("not songs");
+});
+
+var url = "";
+
+self.port.on("alert", function(message){
+    window.alert(message);
 });

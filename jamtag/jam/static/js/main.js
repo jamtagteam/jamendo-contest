@@ -74,6 +74,8 @@ $(function() {
         }
     },{});
 
+    var jamendo
+
     var jamendo = can.Model({
         //findAll : 'GET http://api.jamendo.com/v3.0/autocomplete/?',
         //findOne : 'GET /nesto/nesto',
@@ -81,7 +83,7 @@ $(function() {
         //update : 'PUT /nesto/nesto',
         //destroy : 'DELETE /nesto/nesto',
         models: function(data){
-            return data.results;
+            return data;
         },
         findAll: function(params){
             // client id for read api testing provided by jamendo for me!
@@ -195,11 +197,16 @@ $(function() {
                     var srch = $('.jam-search').val()
                     jamendo.findAll(
                         {srch: srch},
-                        function(results){
-                            $('#result-list').empty();
-                            $.each($(results), function(i, track){
-                                $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'">Song:'+track.name+'</a></span></p></li>');
-                            });
+                        function(data){
+                            if(data.headers.code == 0){
+                                $('#result-list').empty();
+                                $.each($(data.results), function(i, track){
+                                    $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'">Song:'+track.name+'</a></span></p></li>');
+                                });
+                            }
+                            else{
+                                alert(data.headers.status+': with code '+data.headers.code+', '+data.headers.error_message+' '+data.headers.warnings);
+                            }
                         }
                     );
                 }
