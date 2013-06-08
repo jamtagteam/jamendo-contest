@@ -1,3 +1,6 @@
+body {
+    overflow: hidden;
+}
 #jamendo-bar{
     margin: 0 auto;
     width: 70%;
@@ -27,6 +30,14 @@
     font-size: 9px;
     color: #fff;
     margin: 15px 0;
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#jp-playlist{
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 #result-list a{
     text-decoration: none;
@@ -63,10 +74,34 @@
     padding: 0 3px;
     border: 1px solid #B3B27B;
 }
+#tag-button > a {
+    display: block;
+    background-image: url("../img/tag.png");
+    width: 32px;
+    height: 32px;
+}
+#confirm > a {
+    display: block;
+    background-image: url("../img/tag.png");
+    width: 32px;
+    height: 32px;
+}
 #confirm{
     margin-left: 5px;
 }
 #player{
     float: right;
 }
-
+/*
+.sdbar { width: 520px; clear: both; margin: 20px 0 10px; }
+.sdbar .viewport { width: 500px; height: 200px; overflow: hidden; position: relative; }
+.sdbar .overview { list-style: none; position: absolute; left: 0; top: 0; }
+.sdbar .thumb .end,
+.sdbar .thumb { background-color: #003D5D; }
+.sdbar .scrollbar { position: relative; float: right; width: 15px; }
+.sdbar .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
+.sdbar .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+.sdbar .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+.sdbar .disable{ display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+*/

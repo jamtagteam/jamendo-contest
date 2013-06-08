@@ -8,12 +8,13 @@
  "manifest": {
   "jamtag/main": {
    "docsSHA256": null, 
-   "jsSHA256": "ba5dbf83c218d52923a7e86293cd3d62196dcec8a10edac05b2fb1aaef6427cd", 
+   "jsSHA256": "81ac0f4175096d29fa2288673759dd6ab124860b2a41777904ff5c41caf17b69", 
    "moduleName": "main", 
    "packageName": "jamtag", 
    "requirements": {
     "sdk/panel": "sdk/panel", 
     "sdk/self": "sdk/self", 
+    "sdk/tabs": "sdk/tabs", 
     "sdk/widget": "sdk/widget"
    }, 
    "sectionName": "lib"
@@ -39,7 +40,7 @@
    "description": "Jamendo web tagger", 
    "main": "main", 
    "name": "jamtag", 
-   "version": "initial.rev37"
+   "version": "initial.rev108"
   }
  }, 
  "name": "jamtag", 
