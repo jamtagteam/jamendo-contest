@@ -12,14 +12,19 @@ body {
     text-decoration: none;
     color: #FFF;
 }
-#search-bar form{
-    margin: 0;
+#search-bar {
+    margin-bottom: 10px;
+}
+#now-playing-label{
+    font-weight: normal;
+    font-size: 10px;
+    color: #000;
 }
 #tags{
     position: relative;
-    margin-bottom: 25px;
-    margin-top: 25px;
-    height: 50px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    height: 35px;
 }
 .jam-search{
         width: 200px;
@@ -63,38 +68,52 @@ body {
     float: left;
 }
 */
-#tag-button, #confirm{
+#tag-button {
     font-size: 12px;
     float: left;
     padding: 0 3px;
-    border: 1px solid #B3B27B;
 }
+/*
 #tag-button > a {
     display: block;
     background-image: url("../img/retag.png");
     width: 32px;
     height: 32px;
 }
-#confirm > a {
+*/
+.confirm {
     display: block;
     background-image: url("../img/confirm.png");
     width: 32px;
     height: 32px;
 }
+.tag {
+    display: block;
+    background-image: url("../img/tag.png");
+    width: 32px;
+    height: 32px;
+}
+.retag {
+    display: block;
+    background-image: url("../img/retag.png");
+    width: 32px;
+    height: 32px;
+}
+/*
 #confirm{
     margin-left: 5px;
-}
+}*/
 #player{
     float: right;
 }
-#jamendo-search-results-up-border{
+.bordered-div-up-border{
     position: relative;
     background: url("../img/border-up.png") no-repeat;
     width: 200px;
     height: 2px;
     top: 5px;
 }
-#jamendo-search-results-down-border{
+.bordered-div-down-border{
     position: relative;
     background: url("../img/border-down.png") no-repeat;
     width: 200px;
@@ -103,10 +122,53 @@ body {
     /*bottom: 3px;*/
 }
 #jamendo-search-results{
+    display: none;
     width: 200px;
     font-size: 9px;
     color: #fff;
-    margin: 3px 0;
+    /*margin: 3px 0;*/
+    margin-bottom: 15px;
+}
+#now-playing{
+    position: relative;
+    display: none;
+}
+#tagging {
+    position: relative;
+    display: none;
+    margin-bottom: 15px;
+}
+#tagging-div {
+    position: relative;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    height: 35px;
+    width: 200px;
+    font-size: 9px;
+    color: #fff;
+    top: 3px;
+    padding: 2px;
+}
+#tagging-control {
+    float: right;
+    height: 35px;
+    width: 35px;
+}
+#tagging-info {
+    float: left;
+    height: 35px;
+    width: 165px;
+}
+#now-playing-div{
+    position: relative;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    max-height: 70px;
+    width: 200px;
+    font-size: 9px;
+    color: #fff;
+    top: 3px;
+    padding: 2px;
 }
 #scrollbar1 {
     position: relative;
@@ -123,6 +185,7 @@ body {
     overflow: hidden; 
     position: relative;
     max-height: 250px;
+    min-height: 0px;
 }
 #scrollbar1 .overview { 
     position: relative; 

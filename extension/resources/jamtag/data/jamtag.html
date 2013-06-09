@@ -14,7 +14,7 @@
             <input id="search-box" type="search" name="jamendo-search" class="jam-search" placeholder="Search Jamendo"/>
         </div>
         <div id="jamendo-search-results">
-            <div id="jamendo-search-results-up-border"></div>
+            <div class="bordered-div-up-border"></div>
             <div id="scrollbar1">
                 <div class="scrollbar">
                     <div class="track">
@@ -31,15 +31,25 @@
                     </div>
                 </div>
             </div>
-            <div id="jamendo-search-results-down-border"></div>
+            <div class="bordered-div-down-border"></div>
         </div>
-        <div id="tags">
-            <span id="tag-button">
-                <a href="#" class="sidebar-button" title="add tag"></a>
-            </span>
-            <span id="confirm">
-                <a href="#" class="sidebar-button" title="confirm tag"></a>
-            </span>
+        <div id="now-playing">
+            <strong id="now-playing-label">Now playing...</strong>
+            <div class="bordered-div-up-border"></div>
+            <div id="now-playing-div"></div>
+            <div class="bordered-div-down-border"></div>
+        </div>
+        <div id="tagging">
+            <div class="bordered-div-up-border"></div>
+            <div id="tagging-div">
+                <div id="tagging-info"></div>
+                <div id="tagging-control">
+                    <span id="tag-button">
+                        <a id="tag-action-button" href="#" title=""></a>
+                    </span>
+                </div>
+            </div>
+            <div class="bordered-div-down-border"></div>
         </div>
         <div class="jp-gui jp-interface">
             <ul class="jp-controls">
@@ -82,6 +92,4 @@
         </div>
     </div>
 </div>
-<br />
-<input type="text" id="damn">
 </body>
