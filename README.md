@@ -6,13 +6,13 @@ The idea is that every web page can have associated hidden metadata as a flavor.
 The users that have the extension installed can search Jamendo for songs and tag the current web page they are on with their choice of a song.
 For instance, one may visit a Wikipedia article about the International Space Station and see that there are songs associated with it, like some ambiental space music, and play them, agree with the choice, or add another song to it.
 The extension is written with web technologies using some of the popular JavaScript libraries:
-> jQuery
-> CanJS
-> jPlayer
+* jQuery
+* CanJS
+* jPlayer
 
 The service is written in Python with main components being:
-> Django
-> django-tastypie
+* Django
+* django-tastypie
 
 Issues
 ------------------------------
