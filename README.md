@@ -14,6 +14,15 @@ The service is written in Python with main components being:
 > Django
 > django-tastypie
 
+Issues
+------------------------------
+Of course, there are issues with the app, but what can you do with limited resources? :)
+Should there be time, we'd like to update this and possibly make more extensions to the whole concept, like adding users into the mix, support more browsers, do a proper landing page for the service since there is none at the moment.
+
+Disclaimer
+------------------------------
+While this is a working prototype, a proof of concept, of an app idea, it would be interesting to see what new things we could do with the music.
+
 Screenshots
 ------------------------------
 <img src="http://jamtag.offsetlab.net/media/img/screenshot-1.jpeg" />
