@@ -67,7 +67,7 @@ self.port.on("show", function onShow(url, tbttl) {
   searchBox.focus();
   location = url;
   $('#scrollbar1').tinyscrollbar();
-  $('#jp-playlist').tinyscrollbar();
+  //$("#damn").val(location);
 });
 
 $(function() {
@@ -289,3 +289,6 @@ $(function() {
     //var location = window.location.href;
     var urlsControl = new URLs('#tracks', {});
 });
+/*
+$('#jamendo-search-results').tinyscrollbar();
+$('#jp-playlist').tinyscrollbar();*/
