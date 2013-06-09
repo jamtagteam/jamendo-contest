@@ -33,6 +33,12 @@ body {
         color: #FFF;
         margin-bottom: 3px;
 }
+.empty-album{
+    width: 50;
+    height: 50;
+    float: left;
+    background: url("../img/empty_album_image.png");
+}
 #jp-playlist{
     max-height: 250px;
     overflow-x: hidden;
@@ -142,7 +148,7 @@ body {
     position: relative;
     border-left: 1px solid #000;
     border-right: 1px solid #000;
-    height: 35px;
+    height: 42px;
     width: 200px;
     font-size: 9px;
     color: #fff;
@@ -156,7 +162,7 @@ body {
 }
 #tagging-info {
     float: left;
-    height: 35px;
+    height: 42px;
     width: 165px;
 }
 #now-playing-div{

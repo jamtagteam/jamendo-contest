@@ -1,4 +1,4 @@
-self.port.on("playing", function onPlay(song) {
+self.port.on("playingForWidget", function (song) {
 	var label = document.getElementById("ribbon-tag-label");
 	label.innerHTML = song;
 });

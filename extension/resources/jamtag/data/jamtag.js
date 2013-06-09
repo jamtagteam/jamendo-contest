@@ -5,7 +5,7 @@ var counter = 0,
     searchBox = $("#search-box"),
     location = "",
     doctitle = "";
-    var isURLtagged;
+var isURLtagged;
 //api helper
 var api = {
     "format": "?format=json&"
@@ -89,7 +89,7 @@ var URL = can.Model({
             artist_name: params.artist_name,
             audio: params.audio,
         });
-        var postData = JSON.stringify({'url': location});
+        var postData = JSON.stringify({url: dlocation});
         return $.ajax({
             url: 'http://jamtag.offsetlab.net/api/v1/url/' + api.format + getData,
             type: 'POST',
@@ -168,7 +168,6 @@ var contentTrack = can.Model({
             content_resource: api.resource
         });
         //var postData = JSON.stringify({content: api.resource});
-        $("#damn").val($("#damn").val()+"Setting params for attempt no#"+counter+"which are: "+getData);
         return $.ajax({
             url: 'http://jamtag.offsetlab.net/api/v1/tag/' + api.format + getData,
             type: 'POST',
@@ -186,29 +185,28 @@ var URLs = can.Control({
         //jamList.add(msg);
         this.on($(document), '.jam-search', 'keyup', 'searchJamendo');
         this.on($(document), '.track-url', 'click', 'loadSong');
-        this.on($(document), '#confirm', 'click', 'confirmTag');
-        this.on($(document), '.tag-existing', 'click', 'tagExisting');
-        this.on($(document), '.tag-new', 'click', 'tagNew');
+        this.on($(document), '.confirm', 'click', 'confirmTag');
+        this.on($(document), '.retag', 'click', 'tagExisting');
+        this.on($(document), '.tag', 'click', 'tagNew');
     },
     refreshList: function() {
-        //$("#damn").val($("#damn").val()+"Entering refreshlist for attempt no#"+counter+" for location:"+dlocation);
         URL.findAll(
             {url: dlocation},
             function (urls) {
-                //$("#damn").val($("#damn").val()+"Entering findall callback function for attempt no#"+counter+" for location:"+location);
                 // what happens when there are no tracks
                 if (urls.length !== 0) {
-                    $("#damn").val($("#damn").val()+"Passed length for attempt no#"+counter);
+                    if (urls.length > 5)
+                        urls = urls.slice(0, 5);
                     $.each($(urls).attr('content').tracks, function(i, track){
-                        $("#damn").val($("#damn").val()+"Pushing songs for attempt no#"+counter);
                         var song = {
                             title: track.track.name,
                             //oga: track.audio,
                             mp3: track.track.audio,
                         }
-                        jamList.add(song);
+                        jamList.add(song, false);
                         trackingTracks.push(track);
-                        $('#tag-button').addClass('tag-existing');
+                        setNowPlaying(track);
+                        //$('#tag-button').addClass('tag-existing');
                     });
                     $.each(urls, function(i,v){
                         api.resource = v.content.id;
@@ -219,15 +217,13 @@ var URLs = can.Control({
                         title: 'Please tag this adress!',
                         mp3: null,
                     }
-                    $('#tag-button').addClass('tag-new');
+                    //$('#tag-button').addClass('tag-new');
                     isURLtagged = false;
                 }
             },
             function(error){
                 $.each(error, function(i,v){
-                    $("#damn").val($("#damn").val()+" damn error value:" + v);    
                 });
-                $("#damn").val($("#damn").val()+" damn error" + error);
             }
         );
     },
@@ -240,22 +236,28 @@ var URLs = can.Control({
                 jamendo.findAll(
                     {srch: srch},
                     function(data){
-                        $("#damn").val($("#damn").val()+"entering search jamendo" + srch);
                         if(data.headers.code == 0){
-                            $("#damn").val($("#damn").val()+"success");
                             $('#result-list').empty();
-                            $("#damn").val($("#damn").val()+"clearing old list");
-                            $.each($(data.results), function(i, track){
-                                $("#damn").val($("#damn").val()+"pushing results");
-                                $('#result-list').append('<li class="song"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track">Song: '+track.name+'</span></p></a></li>');
-                            });
-                            $("#damn").val($("#damn").val()+"sup?");
-                            $('#jamendo-search-results').css('display', 'block');
-                            $("#damn").val($("#damn").val()+"do the harlem shake");
-                            $('#scrollbar1').tinyscrollbar();
+                            if (data.results.length === 0){
+                                $('#result-list').append('<li>Nothing found.</li>');
+                                $('#jamendo-search-results').css('display', 'block');
+                                $('#scrollbar1').tinyscrollbar();
+                            }
+                            else {
+                                $.each($(data.results), function(i, track){
+                                    $('#result-list').append('<li class="song"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track">Song: '+track.name+'</span></p></a></li>');
+                                });
+                                $('#jamendo-search-results').css('display', 'block');
+                                $('#scrollbar1').tinyscrollbar();
+                            }
                         }
                     }
                 );
+            }
+            else {
+                $('#result-list').empty();
+                $('#jamendo-search-results').css('display', 'none');
+                $('#scrollbar1').tinyscrollbar();
             }
         }, 1000);
     },
@@ -275,10 +277,11 @@ var URLs = can.Control({
         }, true);
         trackingTracks.push(track);
         setNowPlaying(track);
+        $.each(jamList, function (i,v){
+        });
     },
     confirmTag: function(el, ev) {
         ev.preventDefault();
-        $("#damn").val($("#damn").val()+"entering confirm tag for attempt no#"+counter);
         tagInfo.create(trackingTracks[jamList.current]);
     },
     tagExisting: function(el, ev) {
@@ -295,15 +298,12 @@ var URLs = can.Control({
 var urlsControl = new URLs('#tracks', {});
 
 self.port.on("show", function onShow(url, tbttl) {
-    $("#damn").val($("#damn").val()+"Entering onShow for attempt no#"+counter);
     searchBox.focus();
     dlocation = url;
     doctitle = tbttl;
     counter++;
     jamList.setPlaylist();
     urlsControl.refreshList();
-    $("#damn").val($("#damn").val()+"reaching end of onShow for attempt no#"+counter);
-    $("#damn").val($("#damn").val()+"Counter for current song is:"+jamList.current); 
 });
 
 
@@ -322,7 +322,7 @@ function setNowPlaying(track) {
     }
     $('#now-playing-div').empty();
     if (track.album_image === undefined)
-        $('#now-playing-div').html('<p class="track-info"><span class="artist">Artist: '+track.artist_name+'</span><br /><br /><span class="track">Song: '+track.name+'</span></p>');
+        $('#now-playing-div').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="track">Song: '+track.name+'</span></p>');
     else
         $('#now-playing-div').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track">Song: '+track.name+'</span></p>');
     $('#scrollbar1').empty();
@@ -331,20 +331,22 @@ function setNowPlaying(track) {
     $('#search-box').val('');
     $('#now-playing').css('display', 'block');
     $('#jamendo-search-results').css('display', 'none');
+    $('#tag-action-button').removeAttr("class");
     if (times_tagged == 0) {
         if (isURLtagged) {
             $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
-            $('#tag-action-button').addClass("retag")
+            $('#tag-action-button').removeAttr("class");
+            $('#tag-action-button').addClass("retag");
         }
         else {
             $('#tagging-info').html('This page hasn\'t yet been JamTagged. JamTag it!');
-            $('#tag-action-button').addClass("tag")
-        }
+            $('#tag-action-button').addClass("tag");
+        };
     }
     else {
         $('#tagging-info').html('Other people have already JamTagged this page with this song. Confirm their choice.');
-        $('#tag-action-button').addClass("confirm")
-    }
+        $('#tag-action-button').addClass("confirm");
+    };
     $('#tagging').css('display', 'block');
-    self.port.emit("playing", track.artist_name + ": " + track.name);
+    //self.port.emit("playing", track.artist_name + ": " + track.name);
 }
