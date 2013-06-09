@@ -119,7 +119,7 @@ class ContentTrackResource(BaseCorsResource, ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         track = Track.objects.get_or_create(
-            id=bundle.request.GET.get('track_id'),
+            id=int(bundle.request.GET.get('track_id')),
             name=bundle.request.GET.get('name'),
             artist_name=bundle.request.GET.get('artist_name'),
             audio=bundle.request.GET.get('audio')
