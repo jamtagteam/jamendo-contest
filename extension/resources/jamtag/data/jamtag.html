@@ -4,17 +4,6 @@
      <link type="text/css" href="css/barstyle.css" rel="stylesheet" />
 </head>
 <body style="background-color:#3a2a45;">
-<!--<script type="text/javascript">
-    api = {
-        "static": "",
-        "format": "?format=json&"
-    };
-</script>
-<script type="text/javascript" src="js/lib/jquery-2.0.0.min.js"></script>
-<script type="text/javascript" src="js/lib/can.jquery.min.js"></script>
-<script type="text/javascript" src="js/lib/jPlayer/jquery.jplayer.min.js"></script>
-<script type="text/javascript" src="js/lib/jPlayer/add-on/jplayer.playlist.min.js"></script>
-<script type="text/javascript" src="js/main.js"></script>-->
 
 <div id="tracks"></div>
 
@@ -22,9 +11,27 @@
  <div id="jp_container_1" class="jp-audio">
     <div class="jp-type-playlist">
         <div id="search-bar">
-            <!--<form method="GET" action=".">-->
-                <input id="search-box" type="search" name="jamendo-search" class="jam-search"/>
-            <!--</form>-->
+            <input id="search-box" type="search" name="jamendo-search" class="jam-search" placeholder="Search Jamendo"/>
+        </div>
+        <div id="jamendo-search-results">
+            <div id="jamendo-search-results-up-border"></div>
+            <div id="scrollbar1">
+                <div class="scrollbar">
+                    <div class="track">
+                        <div class="thumb">
+                            <div class="end"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    <div class="overview">
+                        <ul id="result-list">
+                            <li id="result-songs"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="jamendo-search-results-down-border"></div>
         </div>
         <div id="tags">
             <span id="tag-button">
@@ -33,16 +40,6 @@
             <span id="confirm">
                 <a href="#" class="sidebar-button" title="confirm tag"></a>
             </span>
-        </div>
-        <div id="jamendo-search-results" class="sdbar">
-            <!--<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
-            <div class="viewport">
-                <div class="overview">-->
-                    <ul id="result-list">
-                        <li id="result-songs">songs</li>
-                    </ul>
-                <!--</div>
-            </div>-->
         </div>
         <div class="jp-gui jp-interface">
             <ul class="jp-controls">
@@ -74,7 +71,7 @@
                 <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
             </ul>
         </div>
-        <div class="jp-playlist sdbar">
+        <div class="jp-playlist">
             <ul>
                 <li></li>
             </ul>

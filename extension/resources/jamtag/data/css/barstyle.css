@@ -16,7 +16,10 @@ body {
     margin: 0;
 }
 #tags{
+    position: relative;
     margin-bottom: 25px;
+    margin-top: 25px;
+    height: 50px;
 }
 .jam-search{
         width: 200px;
@@ -24,15 +27,6 @@ body {
         border: 1px solid #B3B27B;
         color: #FFF;
         margin-bottom: 3px;
-}
-#jamendo-search-results{
-    width: 200px;
-    font-size: 9px;
-    color: #fff;
-    margin: 15px 0;
-    max-height: 250px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 #jp-playlist{
     max-height: 250px;
@@ -44,11 +38,12 @@ body {
     color: #fff;
 }
 #result-list{
+    position: relative;
     list-style: none;
-    /*float: left;*/
-    width: 200px;
+    float: left;
+    margin: 0;
     padding: 0;
-    border: 1px solid #000;
+    width: 97%;
 }
 #result-list li{
     padding: 2px;
@@ -76,13 +71,13 @@ body {
 }
 #tag-button > a {
     display: block;
-    background-image: url("../img/tag.png");
+    background-image: url("../img/retag.png");
     width: 32px;
     height: 32px;
 }
 #confirm > a {
     display: block;
-    background-image: url("../img/tag.png");
+    background-image: url("../img/confirm.png");
     width: 32px;
     height: 32px;
 }
@@ -92,16 +87,95 @@ body {
 #player{
     float: right;
 }
-/*
-.sdbar { width: 520px; clear: both; margin: 20px 0 10px; }
-.sdbar .viewport { width: 500px; height: 200px; overflow: hidden; position: relative; }
-.sdbar .overview { list-style: none; position: absolute; left: 0; top: 0; }
-.sdbar .thumb .end,
-.sdbar .thumb { background-color: #003D5D; }
-.sdbar .scrollbar { position: relative; float: right; width: 15px; }
-.sdbar .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
-.sdbar .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
-.sdbar .thumb .end { overflow: hidden; height: 5px; width: 13px; }
-.sdbar .disable{ display: none; }
-.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
-*/
+#jamendo-search-results-up-border{
+    position: relative;
+    background: url("../img/border-up.png") no-repeat;
+    width: 200px;
+    height: 2px;
+    top: 5px;
+}
+#jamendo-search-results-down-border{
+    position: relative;
+    background: url("../img/border-down.png") no-repeat;
+    width: 200px;
+    height: 2px;
+    top: 2px;
+    /*bottom: 3px;*/
+}
+#jamendo-search-results{
+    width: 200px;
+    font-size: 9px;
+    color: #fff;
+    margin: 3px 0;
+}
+#scrollbar1 {
+    position: relative;
+    top: 4px;
+    width: 200px;
+    clear: both;
+    /*max-height: 250px;
+    min-height: 25px;*/
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+}
+#scrollbar1 .viewport { 
+    width: 100%;
+    overflow: hidden; 
+    position: relative;
+    max-height: 250px;
+}
+#scrollbar1 .overview { 
+    position: relative; 
+    float: left;
+    left: 0; 
+    top: 0;
+    width: 97%;
+    padding: 0;
+}
+#scrollbar1 .thumb .end,
+#scrollbar1 .thumb { 
+    /*background-color: rgb(156, 80, 155); */
+    background: url("../img/scroll-thumb.png") repeat-y;
+}
+#scrollbar1 .scrollbar { 
+    position: relative; 
+    height: 100%;
+    float: right;
+    padding-top: 1px;
+    padding-bottom: 3px;
+    /*right: 0px;*/
+    width: 8px; 
+    z-index: 1;
+}
+#scrollbar1 .track { 
+    /*background-color: rgb(94, 86, 101); */
+    background: url("../img/scroll-background.png") repeat-y;
+    height: 99%; 
+    width:7px; 
+    position: relative; 
+    /*padding: 0 1px; */
+}
+#scrollbar1 .thumb { 
+    height: 20px; 
+    width: 4px; 
+    cursor: pointer; 
+    overflow: hidden; 
+    position: absolute; 
+    top: 0; 
+    left: 2px;
+}
+#scrollbar1 .thumb .end { 
+    overflow: hidden; 
+    height: 5px; 
+    width: 4px; 
+}
+#scrollbar1 .disable{ 
+    display: none; 
+}
+.noSelect { 
+    user-select: none; 
+    -o-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+}

@@ -66,7 +66,8 @@ var delay = (function(){
 self.port.on("show", function onShow(url, tbttl) {
   searchBox.focus();
   location = url;
-  //$("#damn").val(location);
+  $('#scrollbar1').tinyscrollbar();
+  $('#jp-playlist').tinyscrollbar();
 });
 
 $(function() {
@@ -247,8 +248,9 @@ $(function() {
                         function(results){
                             $('#result-list').empty();
                             $.each($(results), function(i, track){
-                                $('#result-list').append('<li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'">Song:'+track.name+'</a></span></p></li>');
+                                $('#result-list').append('<a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'"><li class="song"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track">Song:'+track.name+'</span></p></li></a>');
                             });
+                            $('#scrollbar1').tinyscrollbar();
                         }
                     );
                 }
@@ -287,6 +289,3 @@ $(function() {
     //var location = window.location.href;
     var urlsControl = new URLs('#tracks', {});
 });
-/*
-$('#jamendo-search-results').tinyscrollbar();
-$('#jp-playlist').tinyscrollbar();*/
