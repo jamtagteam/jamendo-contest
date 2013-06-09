@@ -8,7 +8,7 @@ var jamtag_panel = require("sdk/panel").Panel({
   width: 259,
   height: 700,
   contentURL: data.url("jamtag.html"),
-  contentScriptFile: [data.url("/js/lib/jquery-2.0.0.min.js"), data.url("/js/lib/can.jquery.min.js"), data.url("/js/lib/jquery.tinyscrollbar.min.js"), data.url("/js/lib/jPlayer/jquery.jplayer.min.js"), data.url("/js/lib/jPlayer/add-on/jplayer.playlist.js"), data.url("jamtag.js")]
+  contentScriptFile: [data.url("js/lib/jquery-2.0.0.min.js"), data.url("js/lib/can.jquery.min.js"), data.url("js/lib/jquery.tinyscrollbar.min.js"), data.url("js/lib/jPlayer/jquery.jplayer.min.js"), data.url("js/lib/jPlayer/add-on/jplayer.playlist.js"), data.url("jamtag.js")]
 });
 
 var jamtag_player_widget = widgets.Widget({
