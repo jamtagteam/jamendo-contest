@@ -260,7 +260,7 @@ var URLs = can.Control({
                             }
                             else {
                                 $.each($(data.results), function(i, track){
-                                    $('#result-list').append('<li class="song"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track">Song: '+track.name+'</span></p></a></li>');
+                                    $('#result-list').append('<li class="song"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p></a></li>');
                                 });
                                 $('#jamendo-search-results').css('display', 'block');
                                 $('#scrollbar1').tinyscrollbar();
@@ -286,18 +286,25 @@ var URLs = can.Control({
             album_name: $(el).attr('data-album-name'),
             album_image: $(el).attr('data-album-image')
         }
+        var ttl = '<span>'+$(el).attr('data-artist-name')+' - '+$(el).attr('data-song-name')+'</span>';
         jamList.add({
-            title: $(el).attr('data-song-name'),
+            title: ttl,
             oga: $(el).attr('href')
         }, true);
-        if(trackingTracks.length <= 1){
+/*        if (trackingTracks.length === 0) {
+            trackingTracks.push(track);
+            setNowPlaying(trackingTracks[0]);
+        } 
+        else if(trackingTracks.length === 1){
             setNowPlaying(trackingTracks[0]);
             trackingTracks.push(track);
         }
         else{
             trackingTracks.push(track);
             setNowPlaying(track);
-        }
+        }*/
+        trackingTracks.push(track);
+        setNowPlaying(track);
     },
     confirmTag: function(el, ev) {
         ev.preventDefault();
@@ -329,6 +336,7 @@ self.port.on("show", function onShow(url, tbttl) {
 });
 
 function resetPlaylist(){
+/*
     var starting = jamList.current;
     var rmindex = 0;
 
@@ -338,7 +346,14 @@ function resetPlaylist(){
         }
         jamList.remove(rmindex);
     }
-    trackingTracks = trackingTracks.splice(starting, 1);
+    //trackingTracks = trackingTracks.splice(starting, 1);
+*/
+    while (jamList.current > 0){
+        jamList.remove(0);
+    }
+    while (jamList.playlist.length > 1){
+        jamList.remove(1);
+    }
 }
 
 
@@ -356,10 +371,10 @@ function setNowPlaying(track) {
         track = track.track;
     }
     $('#now-playing-div').empty();
-    if (track.album_image === undefined)
-        $('#now-playing-div').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="track">Song: '+track.name+'</span></p>');
+    if (track.album_image === "")
+        $('#now-playing-div').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
     else
-        $('#now-playing-div').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="track">Song: '+track.name+'</span></p>');
+        $('#now-playing-div').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
     $('#scrollbar1').empty();
     $('#scrollbar1').html('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div><div class="viewport"><div class="overview"><ul id="result-list"><li id="result-songs"></li></ul></div></div>');
     $('#scrollbar1').tinyscrollbar();

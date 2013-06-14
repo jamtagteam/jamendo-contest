@@ -26,8 +26,10 @@ tabs.on('open', function(tab){
 });
 
 tabs.on('ready', function(tab){
-    tbttl = tab.title;
-    url = tab.url;
+    if(tab == tabs.activeTab){
+      tbttl = tab.title;
+      url = tab.url;
+    }
 });
 
 tabs.on('activate', function(tab){

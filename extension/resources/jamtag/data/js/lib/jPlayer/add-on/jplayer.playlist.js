@@ -347,7 +347,7 @@
 				if(this.removing) {
 					return false;
 				} else {
-                    trackingTracks.splice(index, 1);
+                    //trackingTracks.splice(index, 1);
 					index = (index < 0) ? self.original.length + index : index; // Negative index relates to end of array.
 					if(0 <= index && index < this.playlist.length) {
 						this.removing = true;
@@ -364,9 +364,11 @@
 									}
 								});
 								self.playlist.splice(index, 1);
+								trackingTracks.splice(index, 1);
 							} else {
 								self.original.splice(index, 1);
 								self.playlist.splice(index, 1);
+								trackingTracks.splice(index, 1);
 							}
 
 							if(self.original.length) {
