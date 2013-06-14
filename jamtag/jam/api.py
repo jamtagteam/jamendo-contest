@@ -77,15 +77,18 @@ class URLResource(BaseCorsResource, ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         content = Content.objects.create(title=bundle.request.GET.get('title'))
-        track = Track.objects.get_or_create(
-            id=int(bundle.request.GET.get('track_id')),
-            name=bundle.request.GET.get('name'),
-            artist_name=bundle.request.GET.get('artist_name'),
-            audio=bundle.request.GET.get('audio'),
-            album_name=bundle.request.GET.get('album_name'),
-            album_image=bundle.request.GET.get('album_image')
-        )
-        ct = ContentTrack.objects.create(track=track[0], content=content)
+        try:
+            track = Track.objects.get(id=int(bundle.request.GET.get('track_id')))
+        except:
+            track = Track.objects.create(
+                id=int(bundle.request.GET.get('track_id')),
+                name=bundle.request.GET.get('name'),
+                artist_name=bundle.request.GET.get('artist_name'),
+                audio=bundle.request.GET.get('audio'),
+                album_name=bundle.request.GET.get('album_name'),
+                album_image=bundle.request.GET.get('album_image')
+            )
+        ct = ContentTrack.objects.create(track=track, content=content)
         TagInfo.objects.create(tag=ct, is_tagged=True, is_confirmed=False, user=bundle.request.GET.get('user', u''))
         return super(URLResource, self).obj_create(bundle, content=content)
 
@@ -120,16 +123,19 @@ class ContentTrackResource(BaseCorsResource, ModelResource):
         always_return_data = False
 
     def obj_create(self, bundle, **kwargs):
-        track = Track.objects.get_or_create(
-            id=int(bundle.request.GET.get('track_id')),
-            name=bundle.request.GET.get('name'),
-            artist_name=bundle.request.GET.get('artist_name'),
-            audio=bundle.request.GET.get('audio'),
-            album_name=bundle.request.GET.get('album_name'),
-            album_image=bundle.request.GET.get('album_image')
-        )
+        try:
+            track = Track.objects.get(id=int(bundle.request.GET.get('track_id')))
+        except:
+            track = Track.objects.create(
+                id=int(bundle.request.GET.get('track_id')),
+                name=bundle.request.GET.get('name'),
+                artist_name=bundle.request.GET.get('artist_name'),
+                audio=bundle.request.GET.get('audio'),
+                album_name=bundle.request.GET.get('album_name'),
+                album_image=bundle.request.GET.get('album_image')
+            )
         content = Content.objects.get(id=int(bundle.request.GET.get('content_resource')))
-        bundle = super(ContentTrackResource, self).obj_create(bundle, track=track[0], content=content)
+        bundle = super(ContentTrackResource, self).obj_create(bundle, track=track, content=content)
         TagInfo.objects.create(
             tag=bundle.obj,
             is_tagged=True,
