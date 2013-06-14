@@ -19,6 +19,8 @@ class Track(models.Model):
     name = models.CharField(_(u'Jamendo track name'), max_length=255)
     artist_name = models.CharField(_(u'Jamendo artist name'), max_length=255)
     audio = models.URLField(_(u'link to track'))
+    album_name = models.CharField(_(u'Jamendo album name'), max_length=255)
+    album_image = models.CharField(_(u'Jamendo album image'), max_length=255)
 
     class Meta:
         verbose_name = _(u'Track')
