@@ -89,6 +89,8 @@ var URL = can.Model({
             name: params.name,
             artist_name: params.artist_name,
             audio: params.audio,
+            album_image: params.album_image,
+            album_name: params.album_name
         });
         var postData = JSON.stringify({url: dlocation});
         return $.ajax({
@@ -167,6 +169,8 @@ var contentTrack = can.Model({
             name: params.name,
             artist_name: params.artist_name,
             audio: params.audio,
+            album_image: params.album_image,
+            album_name: params.album_name,
             content_resource: api.resource
         });
         var postData = JSON.stringify({});
