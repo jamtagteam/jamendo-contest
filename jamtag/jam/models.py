@@ -38,7 +38,7 @@ class ContentTrack(models.Model):
     class Meta:
         verbose_name = _(u'Tagged content')
         verbose_name_plural = _(u'Tagged content units')
-        ordering = ('times_tagged',)
+        ordering = ('-times_tagged',)
 
     def __unicode__(self):
         return u'{} with {}'.format(self.content, self.track)

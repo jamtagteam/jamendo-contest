@@ -81,7 +81,9 @@ class URLResource(BaseCorsResource, ModelResource):
             id=int(bundle.request.GET.get('track_id')),
             name=bundle.request.GET.get('name'),
             artist_name=bundle.request.GET.get('artist_name'),
-            audio=bundle.request.GET.get('audio')
+            audio=bundle.request.GET.get('audio'),
+            album_name=bundle.request.GET.get('album_name'),
+            album_image=bundle.request.GET.get('album_image')
         )
         ct = ContentTrack.objects.create(track=track[0], content=content)
         TagInfo.objects.create(tag=ct, is_tagged=True, is_confirmed=False, user=bundle.request.GET.get('user', u''))
@@ -122,7 +124,9 @@ class ContentTrackResource(BaseCorsResource, ModelResource):
             id=int(bundle.request.GET.get('track_id')),
             name=bundle.request.GET.get('name'),
             artist_name=bundle.request.GET.get('artist_name'),
-            audio=bundle.request.GET.get('audio')
+            audio=bundle.request.GET.get('audio'),
+            album_name=bundle.request.GET.get('album_name'),
+            album_image=bundle.request.GET.get('album_image')
         )
         content = Content.objects.get(id=int(bundle.request.GET.get('content_resource')))
         bundle = super(ContentTrackResource, self).obj_create(bundle, track=track[0], content=content)
