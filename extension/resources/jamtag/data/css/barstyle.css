@@ -112,12 +112,20 @@ body {
 #player{
     float: right;
 }
-.bordered-div-up-border{
+.bordered-div-up-border-srch{
     position: relative;
     background: url("../img/border-up.png") no-repeat;
     width: 200px;
     height: 2px;
     top: 5px;
+}
+.bordered-div-up-border{
+    position: relative;
+    background: url("../img/border-up.png") no-repeat;
+    width: 200px;
+    height: 2px;
+    /*top: 5px;*/
+    top: 4px;
 }
 .bordered-div-down-border{
     position: relative;
@@ -164,8 +172,9 @@ body {
     float: left;
     height: 42px;
     width: 165px;
+    vertical-align: middle;
 }
-#now-playing-div{
+#now-playing-div {
     position: relative;
     border-left: 1px solid #000;
     border-right: 1px solid #000;
@@ -175,6 +184,7 @@ body {
     color: #fff;
     top: 3px;
     padding: 2px;
+    margin-right: 5px;
 }
 #scrollbar1 {
     position: relative;
