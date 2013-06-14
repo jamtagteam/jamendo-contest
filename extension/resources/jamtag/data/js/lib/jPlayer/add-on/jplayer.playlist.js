@@ -217,7 +217,7 @@
 				$(this.cssSelector.playlist + " ul").slideUp(displayTime, function() {
 					var $this = $(this);
 					$(this).empty();
-					
+
 					$.each(self.playlist, function(i) {
 						$this.append(self._createListItem(self.playlist[i]));
 					});
@@ -347,6 +347,7 @@
 				if(this.removing) {
 					return false;
 				} else {
+                    trackingTracks.splice(index, 1);
 					index = (index < 0) ? self.original.length + index : index; // Negative index relates to end of array.
 					if(0 <= index && index < this.playlist.length) {
 						this.removing = true;

@@ -16,9 +16,10 @@ var api = {
 // var titleBox = document.getElementById("title_input");
 var cssSelector = {jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_1"};
 var playlist = [];
-var options = {swfPath: "/js/lib/jPlayer", supplied: "mp3", wmode: "window", smoothPlayBar: true, keyEnabled: true};
+var options = {swfPath: "/js/lib/jPlayer", supplied: "oga", wmode: "window", smoothPlayBar: true, keyEnabled: true};
 var jamList = new jPlayerPlaylist(cssSelector, playlist, options);
 jamList.option("enableRemoveControls", true);
+jamList.option("removeTime", 0);
 
 var trackingTracks = []; //variable for tracking all track info that we have in our or jamendos api, should be indexed like players playlist
 
@@ -117,11 +118,12 @@ var jamendo = can.Model({
             frmt = 'jsonpretty',
             lmt = 6,
             grpby = 'artist_id',
+            audiofrmt = 'ogg',
             incld = 'licenses+musicinfo+stats',
             srch = params.srch,
             img = 50;
         return $.ajax({
-            url: 'http://api.jamendo.com/v3.0/tracks/?client_id={0}&format={1}&limit={2}&include={3}&search={4}&groupby={5}&imagesize={6}'.format(clid,frmt,lmt,incld,srch,grpby,img),
+            url: 'http://api.jamendo.com/v3.0/tracks/?client_id={0}&format={1}&limit={2}&audioformat={3}&include={4}&search={5}&groupby={6}&imagesize={7}'.format(clid,frmt,lmt,audiofrmt,incld,srch,grpby,img),
             type: 'get',
             dataType: 'json',
             async: false
@@ -167,11 +169,11 @@ var contentTrack = can.Model({
             audio: params.audio,
             content_resource: api.resource
         });
-        //var postData = JSON.stringify({content: api.resource});
+        var postData = JSON.stringify({});
         return $.ajax({
             url: 'http://jamtag.offsetlab.net/api/v1/tag/' + api.format + getData,
             type: 'POST',
-            //data: postData,
+            data: postData,
             dataType: 'json',
             contentType: 'application/json',
             async: false,
@@ -182,7 +184,6 @@ var contentTrack = can.Model({
 // CONTROLLERS
 var URLs = can.Control({
     init: function(element, options) {
-        //jamList.add(msg);
         this.on($(document), '.jam-search', 'keyup', 'searchJamendo');
         this.on($(document), '.track-url', 'click', 'loadSong');
         this.on($(document), '.confirm', 'click', 'confirmTag');
@@ -198,15 +199,26 @@ var URLs = can.Control({
                     if (urls.length > 5)
                         urls = urls.slice(0, 5);
                     $.each($(urls).attr('content').tracks, function(i, track){
+                        var ttl = '<span>'+track.track.artist_name+' - '+track.track.name+'</span>';
                         var song = {
-                            title: track.track.name,
+                            title: ttl,
                             //oga: track.audio,
-                            mp3: track.track.audio,
+                            oga: track.track.audio,
                         }
-                        jamList.add(song, false);
-                        trackingTracks.push(track);
-                        setNowPlaying(track);
-                        //$('#tag-button').addClass('tag-existing');
+                        if(trackingTracks[0] !== undefined){
+                            if(trackingTracks[0].track_id != track.track.id && (trackingTracks[0].track === undefined  || trackingTracks[0].track.id != track.track.id)){
+                                jamList.add(song, false);
+                                trackingTracks.push(track);
+                            }
+                            else{
+                            }
+
+                        }
+                        else{
+                            jamList.add(song, true);
+                            trackingTracks.push(track);
+                        }
+
                     });
                     $.each(urls, function(i,v){
                         api.resource = v.content.id;
@@ -217,7 +229,6 @@ var URLs = can.Control({
                         title: 'Please tag this adress!',
                         mp3: null,
                     }
-                    //$('#tag-button').addClass('tag-new');
                     isURLtagged = false;
                 }
             },
@@ -273,12 +284,16 @@ var URLs = can.Control({
         }
         jamList.add({
             title: $(el).attr('data-song-name'),
-            mp3: $(el).attr('href')
+            oga: $(el).attr('href')
         }, true);
-        trackingTracks.push(track);
-        setNowPlaying(track);
-        $.each(jamList, function (i,v){
-        });
+        if(trackingTracks.length <= 1){
+            setNowPlaying(trackingTracks[0]);
+            trackingTracks.push(track);
+        }
+        else{
+            trackingTracks.push(track);
+            setNowPlaying(track);
+        }
     },
     confirmTag: function(el, ev) {
         ev.preventDefault();
@@ -293,7 +308,6 @@ var URLs = can.Control({
         URL.create(trackingTracks[jamList.current]);
     }
 });
-//var location = window.location.href;
 //INIT
 var urlsControl = new URLs('#tracks', {});
 
@@ -302,9 +316,26 @@ self.port.on("show", function onShow(url, tbttl) {
     dlocation = url;
     doctitle = tbttl;
     counter++;
-    jamList.setPlaylist();
+    resetPlaylist(jamList.current);
     urlsControl.refreshList();
+    if(trackingTracks.length <= 1){
+        setNowPlaying(trackingTracks[0])
+    }
+    //$("#damn").val($("#damn").val()+"url: "+dlocation)
 });
+
+function resetPlaylist(){
+    var starting = jamList.current;
+    var rmindex = 0;
+
+    for(var i=1; i<trackingTracks.length; i++){
+        if(rmindex === jamList.current){
+            rmindex++;
+        }
+        jamList.remove(rmindex);
+    }
+    trackingTracks = trackingTracks.splice(starting, 1);
+}
 
 
 function setNowPlaying(track) {

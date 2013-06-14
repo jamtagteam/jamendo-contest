@@ -49,7 +49,7 @@ Adds CORS headers to resources that subclass this.
 
 class TrackResource(BaseCorsResource, ModelResource):
     class Meta:
-        queryset = Track.objects.all()
+        queryset = Track.objects.select_related().all()
         allowed_methods = ('get', 'post', 'options')
         resource_name = 'track'
         include_resource_uri = False
@@ -63,7 +63,7 @@ class URLResource(BaseCorsResource, ModelResource):
     content = fields.ForeignKey('jam.api.ContentResource', 'content', full=True, null=True)
 
     class Meta:
-        queryset = URL.objects.all()
+        queryset = URL.objects.select_related().all()
         allowed_methods = ('get', 'post', 'options')
         resource_name = 'url'
         include_resource_uri = False
@@ -93,7 +93,7 @@ class ContentResource(BaseCorsResource, ModelResource):
     tracks = fields.ManyToManyField('jam.api.ContentTrackResource', attribute=lambda bundle: bundle.obj.tracks.through.objects.filter(content=bundle.obj) or bundle.obj.tracks, full=True)
 
     class Meta:
-        queryset = Content.objects.all()
+        queryset = Content.objects.select_related().all()
         allowed_methods = ('get', 'options')
         resource_name = 'content'
         include_resource_uri = False
@@ -108,7 +108,7 @@ class ContentTrackResource(BaseCorsResource, ModelResource):
     #content = fields.ForeignKey(ContentResource, 'content', full=True, null=True, related_name='content')
 
     class Meta:
-        queryset = ContentTrack.objects.all()
+        queryset = ContentTrack.objects.select_related().all()
         allowed_methods = ('get', 'post', 'options')
         resource_name = 'tag'
         include_resource_uri = False
@@ -139,7 +139,7 @@ class TagInfoResource(BaseCorsResource, ModelResource):
     tag = fields.ForeignKey(ContentTrackResource, 'tag', full=True, null=True)
 
     class Meta:
-        queryset = TagInfo.objects.all()
+        queryset = TagInfo.objects.select_related().all()
         allowed_methods = ('get', 'post', 'options')
         resource_name = 'taginfo'
         include_resource_uri = False

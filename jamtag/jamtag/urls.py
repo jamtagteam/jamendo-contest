@@ -19,6 +19,6 @@ api.register(ContentResource())
 urlpatterns = patterns('',
     url(r'^api/', include(api.urls)),
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^$', 'jam.views.index', name='index'),
+    #  url(r'^$', 'jam.views.index', name='index'),
 )
 urlpatterns += staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
