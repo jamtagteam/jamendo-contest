@@ -18,7 +18,7 @@ body {
 #now-playing-label{
     font-weight: normal;
     font-size: 10px;
-    color: #000;
+    color: #FFF;
 }
 #tags{
     position: relative;
@@ -56,8 +56,22 @@ body {
     padding: 0;
     width: 97%;
 }
+/*
+#result-list-push{
+    position: relative;
+    list-style: none;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 97%;
+    height: 33px;
+}
+*/
 #result-list li{
     padding: 2px;
+}
+#result-list li:last-child{
+    margin-bottom: 33px;
 }
 .track-info img{
     float: left;
@@ -105,6 +119,18 @@ body {
     width: 32px;
     height: 32px;
 }
+.in-progress {
+    display: block;
+    background-image: url("../img/loading.gif");
+    width: 32px;
+    height: 32px;
+}
+.tag-none {
+    display: none;
+    width: 32px;
+    height: 32px;
+}
+
 /*
 #confirm{
     margin-left: 5px;

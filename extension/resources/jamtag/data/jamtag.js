@@ -308,15 +308,30 @@ var URLs = can.Control({
     },
     confirmTag: function(el, ev) {
         ev.preventDefault();
+        $('#tagging-info').html("Thank you!")
+        $('#tag-action-button').removeAttr("class");
+        $('#tag-action-button').addClass("in-progress");
         tagInfo.create(trackingTracks[jamList.current]);
+        $('#tag-action-button').removeAttr("class");
+        $('#tag-action-button').addClass("tag-none");
     },
     tagExisting: function(el, ev) {
         ev.preventDefault();
+        $('#tagging-info').html("Thank you!")
+        $('#tag-action-button').removeAttr("class");
+        $('#tag-action-button').addClass("in-progress");
         contentTrack.create(trackingTracks[jamList.current]);
+        $('#tag-action-button').removeAttr("class");
+        $('#tag-action-button').addClass("tag-none");
     },
     tagNew: function(el, ev) {
         ev.preventDefault();
+        $('#tagging-info').html("Thank you!")
+        $('#tag-action-button').removeAttr("class");
+        $('#tag-action-button').addClass("in-progress");
         URL.create(trackingTracks[jamList.current]);
+        $('#tag-action-button').removeAttr("class");
+        $('#tag-action-button').addClass("tag-none");
     }
 });
 //INIT
@@ -399,4 +414,11 @@ function setNowPlaying(track) {
     };
     $('#tagging').css('display', 'block');
     //self.port.emit("playing", track.artist_name + ": " + track.name);
+}
+
+function resetNowPlaying() {
+    if (jamList.playlist.length == 0) {
+        $('#now-playing').css('display', 'none');
+        $('#tagging').css('display', 'none');
+    }
 }

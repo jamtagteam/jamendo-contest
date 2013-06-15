@@ -364,10 +364,12 @@
 								});
 								self.playlist.splice(index, 1);
 								trackingTracks.splice(index, 1);
+								resetNowPlaying();
 							} else {
 								self.original.splice(index, 1);
 								self.playlist.splice(index, 1);
 								trackingTracks.splice(index, 1);
+								resetNowPlaying();
 							}
 
 							if(self.original.length) {
