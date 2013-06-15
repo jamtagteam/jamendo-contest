@@ -368,7 +368,7 @@
 							} else {
 								self.original.splice(index, 1);
 								self.playlist.splice(index, 1);
-								trackingTracks.splice(index, 1);
+                                trackingTracks.splice(index, 1);
 								resetNowPlaying();
 							}
 
@@ -389,7 +389,6 @@
 							self.removing = false;
 						});
 					}
-					trackingTracks.splice(index, 1);
 					return true;
 				}
 			}

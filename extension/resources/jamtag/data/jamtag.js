@@ -216,11 +216,11 @@ var URLs = can.Control({
                             }
                             else{
                             }
-
                         }
                         else{
                             jamList.add(song, true);
                             trackingTracks.push(track);
+                            setNowPlaying(track);
                         }
 
                     });
@@ -294,7 +294,7 @@ var URLs = can.Control({
 /*        if (trackingTracks.length === 0) {
             trackingTracks.push(track);
             setNowPlaying(trackingTracks[0]);
-        } 
+        }
         else if(trackingTracks.length === 1){
             setNowPlaying(trackingTracks[0]);
             trackingTracks.push(track);
@@ -345,7 +345,7 @@ self.port.on("show", function onShow(url, tbttl) {
     resetPlaylist(jamList.current);
     urlsControl.refreshList();
     if(trackingTracks.length <= 1){
-        setNowPlaying(trackingTracks[0])
+        setNowPlaying(trackingTracks[0]);
     }
     //$("#damn").val($("#damn").val()+"url: "+dlocation)
 });
