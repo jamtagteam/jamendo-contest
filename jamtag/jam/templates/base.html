@@ -1,87 +1,92 @@
-<head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JamTag</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-     <link type="text/css" href="{{ STATIC_URL }}css/jPlayer/pink.flag/jplayer.pink.flag.css" rel="stylesheet" />
-     <link type="text/css" href="{{ STATIC_URL }}css/barstyle.css" rel="stylesheet" />
-</head>
-<body>
+    <!-- Le styles -->
+    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+  </head>
 
-<h1>Welcome to mock for API</h1>
-<div id="tracks"></div>
+  <body>
 
-<div id="jquery_jplayer_1" class="jp-jplayer"></div>
- <div id="jp_container_1" class="jp-audio">
-    <div class="jp-type-playlist">
-        <div id="search-bar">
-            <form method="GET" action=".">
-                <input type="search" name="jamendo-search" class="jam-search"/>
-            </form>
-        </div>
-        <div id="tags">
-            <span id="tag-button">
-                <a href="" class="sidebar-button">add tag</a>
-            </span>
-            <span id="confirm">
-                <a href="" class="sidebar-button">confirm tag</a>
-            </span>
-        </div>
-        <div id="jamendo-search-results">
-            <ul id="result-list">
-                <li id="result-songs">songs</li>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">JamTag</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#about">About</a></li>
+              <li><a href="#statistics">Statistics</a></li>
+              <li><a href="#developers">Developers</a></li>
+              <li><a href="#contact">Contact</a></li>
             </ul>
+          </div><!--/.nav-collapse -->
         </div>
-        <div class="jp-gui jp-interface">
-            <ul class="jp-controls">
-                <li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
-                <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-                <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-                <li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
-                <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-                <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-                <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-                <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
-            </ul>
-            <div class="jp-progress">
-                <div class="jp-seek-bar">
-                    <div class="jp-play-bar"></div>
-                </div>
-            </div>
-            <div class="jp-volume-bar">
-                <div class="jp-volume-bar-value"></div>
-            </div>
-            <div class="jp-time-holder">
-                <div class="jp-current-time"></div>
-                <div class="jp-duration"></div>
-            </div>
-            <ul class="jp-toggles">
-                <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a></li>
-                <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a></li>
-                <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
-                <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
-            </ul>
-        </div>
-        <div class="jp-playlist">
-            <ul>
-                <li></li>
-            </ul>
-        </div>
-        <div class="jp-no-solution">
-            <span>Update Required</span>
-            To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-        </div>
+      </div>
     </div>
-</div>
-<script type="text/javascript">
-    api = {
-        "static": "{{ STATIC_URL }}",
-        "format": "?format=json&"
-    };
-</script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/lib/jquery-2.0.0.min.js"><\/script>')</script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/lib/can.jquery.min.js"></script>
-<!--script type="text/javascript" src="{{ STATIC_URL }}js/require.js"></script-->
-<script type="text/javascript" src="{{ STATIC_URL }}js/lib/jPlayer/jquery.jplayer.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/lib/jPlayer/add-on/jplayer.playlist.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
 
-</body>
+    <div class="container">
+
+      <div class="hero-unit">
+        <h1><a name="about"></a>JamTag</h1>
+        <p>JamTag started out as an entry to the <a href="http://www.jamendo.com/" target="_blank">Jamendo</a> contest. The whole idea is that everything can have hidden data associated with it. Something like <a href="http://en.wikipedia.org/wiki/Hidden_Markov_model" target="_blank">hidden Markov models</a>. That being said, we were thinking tags, but instead of tags, why not tracks, why not Jamendo? JamTag is a web service that can provide any web page with hidden metadata through a browser extension (currently only for <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Firefox</a>). That way a web page can have something like an easter egg associated with it. Think wikipedia article for a certain genre of music having some tracks associated with it. Give the service a try. Download the extension or check out the source code on <a href="https://github.com/zmasek/jamendo-contest" target="_blank">GitHub</a>.</p>
+        <p><img src="{{ MEDIA_URL }}img/screenshot-1.jpeg" alt="Screenshot 1"></p>
+        <p><img src="{{ MEDIA_URL }}img/screenshot-2.jpeg" alt="Screenshot 2"></p>
+        <p><img src="{{ MEDIA_URL }}img/screenshot-3.jpeg" alt="Screenshot 3"></p>
+        <p><a href="{{ MEDIA_URL }}jamtag.xpi" class="btn btn-primary btn-large">Download extension &raquo;</a></p>
+      </div>
+
+      <div class="row">
+        <div class="span12">
+          <h2><a name="statistics"></a>Statistics</h2>
+          <p>Here are some numbers regarding the current use of the extension:</p>
+          <ul>
+            <li>Number of pages tagged: {{ pages }}</li>
+            <li>Number of tracks used as tags: {{ tracks }}</li>
+            <li>Number of average tags per page: {{ tracks_avg }}</li>
+          </ul>
+       </div>
+        <div class="span6">
+          <h2><a name="developers"></a>Developers</h2>
+          <p>JamTag was developed in various places after hours with a lot of help from coffee and a good company. We are three friends from college each with their own interests and lives. Our names are Borislav, Vanja and Zlatko. We managed to survive these sprints through sheer enthusiasm and our only problem is that we are lacking time for proper development. Our language of choice was Python with Django framework and CanJS on client side for MV* needs. We used jPlayer and jQuery respectively.</p>
+        </div>
+        <div class="span6">
+          <h2><a name="contact"></a>Contact</h2>
+          <p>Feel free to drop us an e-mail at <a href="mailto:jamtag@offsetlab.net">jamtag@offsetlab.net</a>, report any bugs, or fork the repository further through <a href="https://github.com/zmasek/jamendo-contest" target="_blank">GitHub</a>, and, last but not least, vote for us on <a href="http://developer.jamendo.com/contest/apps" target="_blank">Jamendo contest page</a>. Thanks.</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>Made by JamTagTeam, 2013.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script src="{{ STATIC_URL }}js/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-transition.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-alert.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-dropdown.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-scrollspy.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-popover.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-button.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-collapse.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-carousel.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
