@@ -10,7 +10,10 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['pages'] = URL.objects.count()
         context['tracks'] = Track.objects.count()
-        context['tracks_avg'] = context['tracks'] / context['pages']
+        try:
+        	context['tracks_avg'] = context['tracks'] / context['pages']
+        except ZeroDivisionError:
+        	context['tracks_avg'] = 0
         return context
 
 index = HomeView.as_view()
