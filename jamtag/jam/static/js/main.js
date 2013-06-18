@@ -14,6 +14,7 @@ if (!String.prototype.format) {
 var isURLtagged;
 
 
+
 // initial setup
 var cssSelector = {jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_1"};
 var playlist = [];
@@ -173,23 +174,22 @@ $(function() {
                 }
             });
 */
+            this.startPlayer();
             this.on($(document), '#pages', 'change', 'startPlayer');
             this.on($(document), '.jam-search', 'keyup', 'searchJamendo');
             this.on($(document), '.track-url', 'click', 'loadSong');
             this.on($(document), '.confirm', 'click', 'confirmTag');
             this.on($(document), '.retag', 'click', 'tagExisting');
             this.on($(document), '.tag', 'click', 'tagNew');
-            this.on($(document), 'select', 'change', 'tagNew');
         },
         startPlayer: function(){
             dlocation = $('select option:selected').val();
             doctitle = $('select option:selected').text();
             resetPlaylist(jamList.current);
-            urlsControl.refreshList();
+            this.refreshList();
             if(trackingTracks.length <= 1){
                 setNowPlaying(trackingTracks[0]);
             }
-            this.refreshList(dlocation);
         },
         refreshList: function() {
             URL.findAll(
@@ -368,45 +368,46 @@ function resetNowPlaying() {
     }
 }
 function setNowPlaying(track) {
-        if (track === undefined)
-            return;
-        var times_tagged;
-        if (track.track === undefined) {
-            // this is not our track
-            times_tagged = 0;
-        }
-        else {
-            // this is our track
-            times_tagged = track.times_tagged;
-            track = track.track;
-        }
-        $('#now-playing-div').empty();
-        if (track.album_image === "")
-            $('#now-playing-div').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
-        else
-            $('#now-playing-div').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
-        $('#scrollbar1').empty();
-        $('#scrollbar1').html('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div><div class="viewport"><div class="overview"><ul id="result-list"><li id="result-songs"></li></ul></div></div>');
-        $('#scrollbar1').tinyscrollbar();
-        $('#search-box').val('');
-        $('#now-playing').css('display', 'block');
-        $('#jamendo-search-results').css('display', 'none');
-        $('#tag-action-button').removeAttr("class");
-        if (times_tagged == 0) {
-            if (isURLtagged) {
-                $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
-                $('#tag-action-button').removeAttr("class");
-                $('#tag-action-button').addClass("retag");
-            }
-            else {
-                $('#tagging-info').html('This page hasn\'t yet been JamTagged. JamTag it!');
-                $('#tag-action-button').addClass("tag");
-            };
-        }
-        else {
-            $('#tagging-info').html('Other people have already JamTagged this page with this song. Confirm their choice.');
-            $('#tag-action-button').addClass("confirm");
-        };
-        $('#tagging').css('display', 'block');
-        //self.port.emit("playing", track.artist_name + ": " + track.name);
+    if (track === undefined)
+        return;
+    var times_tagged;
+    if (track.track === undefined) {
+        // this is not our track
+        times_tagged = 0;
     }
+    else {
+        // this is our track
+        times_tagged = track.times_tagged;
+        track = track.track;
+    }
+    $('#now-playing-div').empty();
+    if (track.album_image === "")
+        $('#now-playing-div').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
+    else
+        $('#now-playing-div').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
+    $('#scrollbar1').empty();
+    $('#scrollbar1').html('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div><div class="viewport"><div class="overview"><ul id="result-list"><li id="result-songs"></li></ul></div></div>');
+    $('#scrollbar1').tinyscrollbar();
+    $('#search-box').val('');
+    $('#now-playing').css('display', 'block');
+    $('#jamendo-search-results').css('display', 'none');
+    $('#tag-action-button').removeAttr("class");
+    if (times_tagged == 0) {
+        if (isURLtagged) {
+            $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
+            $('#tag-action-button').removeAttr("class");
+            $('#tag-action-button').addClass("retag");
+        }
+        else {
+            $('#tagging-info').html('This page hasn\'t yet been JamTagged. JamTag it!');
+            $('#tag-action-button').addClass("tag");
+        };
+    }
+    else {
+        $('#tagging-info').html('Other people have already JamTagged this page with this song. Confirm their choice.');
+        $('#tag-action-button').addClass("confirm");
+    };
+    $('#tagging').css('display', 'block');
+    //self.port.emit("playing", track.artist_name + ": " + track.name);
+}
+
