@@ -21,8 +21,8 @@
     <!-- Front End MetaData -->
     <em:name>JamTag</em:name>
     <em:description>Jamendo web tagger</em:description>
-    <em:creator>JamTag Team; http://team.jamtag.org</em:creator>
-    <em:homepageURL>http://www.jamtag.org</em:homepageURL>
+    <em:creator>JamTag Team; http://jamtag.offsetlab.net</em:creator>
+    <em:homepageURL>http://jamtag.offsetlab.net</em:homepageURL>
     <em:iconURL>http://jamtag.offsetlab.net/media/img/icon.png</em:iconURL>
     
     
