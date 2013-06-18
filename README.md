@@ -1,4 +1,4 @@
-JamTag Hidden Metadata Service 
+JamTag Hidden Metadata Service
 ==============================
 
 JamTag is a service written in Python that stores associations between Jamendo tracks and web pages. It consists of a web service written in Python and a browser extension, currently written for Firefox browser.
@@ -14,10 +14,16 @@ The service is written in Python with main components being:
 * Django
 * django-tastypie
 
+Installation Instructions
+------------------------------
+
+You can visit our [homepage](http://jamtag.offsetlab.net) for this project where you can download the xpi file of the extensions and just drag and drop it to your firefox.
+Or if you prefer just click [here](http://jamtag.offsetlab.net/media/jamtga.xpi) ...
+
 Issues
 ------------------------------
 Of course, there are issues with the app, but what can you do with limited resources? :)
-Should there be time, we'd like to update this and possibly make more extensions to the whole concept, like adding users into the mix, support more browsers, do a proper landing page for the service since there is none at the moment.
+Should there be time, we'd like to update this and possibly make more extensions to the whole concept, like adding users into the mix, support more browsers, do a proper landing page for the service since there is a generic one at the moment.
 
 Disclaimer
 ------------------------------
