@@ -21,6 +21,7 @@ var playlist = [];
 var options = {swfPath: api.static + "js/lib/jPlayer", supplied: "mp3", wmode: "window", smoothPlayBar: true, keyEnabled: true};
 var jamList = new jPlayerPlaylist(cssSelector, playlist, options);
 jamList.option("enableRemoveControls", true);
+jamList.option
 
 var trackingTracks = []; //variable for tracking all track info that we have in our or jamendos api, should be indexed like players playlist
 
@@ -185,7 +186,7 @@ $(function() {
         startPlayer: function(){
             dlocation = $('select option:selected').val();
             doctitle = $('select option:selected').text();
-            resetPlaylist(jamList.current);
+            resetPlaylist();
             this.refreshList();
             if(trackingTracks.length <= 1){
                 setNowPlaying(trackingTracks[0]);
@@ -353,12 +354,14 @@ function resetPlaylist(){
     }
     //trackingTracks = trackingTracks.splice(starting, 1);
 */
+    //jamList.option("removeTime", 0);
     while (jamList.current > 0){
         jamList.remove(0);
     }
     while (jamList.playlist.length > 1){
         jamList.remove(1);
     }
+    //jamList.option("removeTime", "fast");
 }
 
 function resetNowPlaying() {
