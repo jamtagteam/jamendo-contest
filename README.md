@@ -14,11 +14,11 @@ The service is written in Python with main components being:
 * Django
 * django-tastypie
 
-Installation Instructions
+Installation Instructions - Live demo
 ------------------------------
 
-You can visit our [homepage](http://jamtag.offsetlab.net) for this project where you can download the xpi file of the extensions and just drag and drop it to your firefox.
-Or if you prefer just click [here](http://jamtag.offsetlab.net/media/jamtga.xpi) ...
+You can visit our [homepage](http://jamtag.offsetlab.net) for this project where you can try out the live demo we prepared and download the xpi file of the extension. Installing it is really easy just drag and drop it into your open firefox window, then when prompted click install.
+Or if you prefer just click [here](http://jamtag.offsetlab.net/media/jamtag.xpi) to download the extension...
 
 Issues
 ------------------------------
