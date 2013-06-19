@@ -216,7 +216,6 @@ var URLs = can.Control({
                                 trackingTracks.push(track);
                                 if(trackingTracks[0].times_tagged){
                                     trackingTracks[0].times_tagged = 0;
-                                    console.log(trackingTracks[0].times_tagged);
                                     setNowPlaying(trackingTracks[0]);
                                 }
                                 else
@@ -227,7 +226,6 @@ var URLs = can.Control({
                             else{
                                 if(trackingTracks[0].times_tagged){
                                     trackingTracks[0].times_tagged = 0;
-                                    console.log(trackingTracks[0].times_tagged);
                                     setNowPlaying(trackingTracks[0]);
                                 }
                                 else

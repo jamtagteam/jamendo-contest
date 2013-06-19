@@ -165,7 +165,7 @@ $(function() {
 // CONTROLLERS
     var URLs = can.Control({
         init: function(element, options) {
-            this.startPlayer();
+            this.startPlayer(true);
             this.on($(document), '#pages', 'change', 'startPlayer');
             this.on($(document), '.jam-search', 'keyup', 'searchJamendo');
             this.on($(document), '.track-url', 'click', 'loadSong');
@@ -173,12 +173,16 @@ $(function() {
             this.on($(document), '.retag', 'click', 'tagExisting');
             this.on($(document), '.tag', 'click', 'tagNew');
         },
-        startPlayer: function(){
-            console.log("sandman!");
+        startPlayer: function(first){
             dlocation = $('select option:selected').val();
             doctitle = $('select option:selected').text();
-            resetPlaylist();
-            this.refreshList();
+            if(first === true){
+                this.refreshList();
+            }
+            else{
+                resetPlaylist();
+                this.refreshList();
+            }
             if(trackingTracks.length <= 1){
                 setNowPlaying(trackingTracks[0]);
             }
@@ -204,7 +208,6 @@ $(function() {
                                     trackingTracks.push(track);
                                     if(trackingTracks[0].times_tagged){
                                         trackingTracks[0].times_tagged = 0;
-                                        console.log(trackingTracks[0].times_tagged);
                                         setNowPlaying(trackingTracks[0]);
                                     }
                                     else{
@@ -214,7 +217,6 @@ $(function() {
                                 else{
                                     if(trackingTracks[0].times_tagged){
                                         trackingTracks[0].times_tagged = 0;
-                                        console.log(trackingTracks[0].times_tagged);
                                         setNowPlaying(trackingTracks[0]);
                                     }
                                     else{
@@ -265,7 +267,7 @@ $(function() {
                                 }
                                 else {
                                     $.each($(data.results), function(i, track){
-                                        $('#result-list').append('<li class="song"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p></a></li>');
+                                        $('#result-list').append('<li class="song" style="line-height:1.6;"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p></a></li>');
                                     });
                                     $('#jamendo-search-results').css('display', 'block');
                                     $('#scrollbar1').tinyscrollbar();
@@ -396,9 +398,7 @@ function setNowPlaying(track) {
     $('#now-playing').css('display', 'block');
     $('#jamendo-search-results').css('display', 'none');
     $('#tag-action-button').removeAttr("class");
-    console.log("tt: "+times_tagged);
     if (times_tagged == 0) {
-        console.log("is logged"+isURLtagged);
         if (isURLtagged) {
             $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
             $('#tag-action-button').removeAttr("class");
