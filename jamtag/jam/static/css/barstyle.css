@@ -164,7 +164,8 @@
     font-size: 9px;
     color: #fff;
     /*margin: 3px 0;*/
-    margin-bottom: 15px;
+    margin-bottom: 2px;
+    padding: 2px;
 }
 #now-playing{
     position: relative;
@@ -216,9 +217,9 @@
     width: 200px;
     clear: both;
     /*max-height: 250px;
-    min-height: 25px;*/
+    min-height: 25px;
     border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    border-right: 1px solid #000;*/
 }
 #scrollbar1 .viewport {
     width: 100%;
@@ -244,9 +245,10 @@
     position: relative;
     /*height: 200px;*/
     float: right;
-    padding-top: 1px;
+    /*padding-top: 1px;
     padding-bottom: 3px;
-    /*right: 0px;*/
+    right: 0px;*/
+    padding-right: 2px;
     width: 8px;
     z-index: 1;
 }
@@ -281,4 +283,53 @@
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
+}
+
+
+#cont-box {
+    border: 1px ridge #000;
+    color: #fff;
+    display: none;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+#cont-search{
+    display: none;
+}
+#cont-title{
+    text-align: center;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+#np-info{
+    padding: 2px 2px 5px;
+    font-size: 10px;
+}
+#np-info p{
+    margin: 0;
+}
+#np-info p img{
+    margin-top: 3px;
+}
+#np-action{
+    margin-top: 3px;
+    border-top: 1px solid #000;
+    padding: 2px;
+    font-size: 10px;
+    overflow: hidden;
+}
+
+#np-action-msg{
+    float: left;
+    /*height: 42px;*/
+    min-height: 42px;
+    width: 155px;
+}
+#np-action-btn{
+    float: right;
+    height: 35px;
+    width: 35px;
+    margin-top: 6px;
 }
