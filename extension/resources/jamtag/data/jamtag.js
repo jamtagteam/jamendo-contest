@@ -202,6 +202,7 @@ var URLs = can.Control({
                 if (urls.length !== 0) {
                     if (urls.length > 5)
                         urls = urls.slice(0, 5);
+                    isURLtagged = true;
                     $.each($(urls).attr('content').tracks, function(i, track){
                         var ttl = '<span>'+track.track.artist_name+' - '+track.track.name+'</span>';
                         var song = {
@@ -213,8 +214,26 @@ var URLs = can.Control({
                             if(trackingTracks[0].track_id != track.track.id && (trackingTracks[0].track === undefined  || trackingTracks[0].track.id != track.track.id)){
                                 jamList.add(song, false);
                                 trackingTracks.push(track);
+                                if(trackingTracks[0].times_tagged){
+                                    trackingTracks[0].times_tagged = 0;
+                                    console.log(trackingTracks[0].times_tagged);
+                                    setNowPlaying(trackingTracks[0]);
+                                }
+                                else
+                                {
+                                    setNowPlaying(trackingTracks[0]);
+                                }
                             }
                             else{
+                                if(trackingTracks[0].times_tagged){
+                                    trackingTracks[0].times_tagged = 0;
+                                    console.log(trackingTracks[0].times_tagged);
+                                    setNowPlaying(trackingTracks[0]);
+                                }
+                                else
+                                {
+                                    setNowPlaying(trackingTracks[0]);
+                                }
                             }
                         }
                         else{
@@ -227,7 +246,6 @@ var URLs = can.Control({
                     $.each(urls, function(i,v){
                         api.resource = v.content.id;
                     });
-                    isURLtagged = true;
                 } else {
                     var msg = {
                         title: 'Please tag this adress!',

@@ -11,20 +11,21 @@ if (!String.prototype.format) {
 }
 
 //'{0} says {1}'.format('Chubz', 'hello');
-var isURLtagged;
 
 
 
 // initial setup
 var cssSelector = {jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_1"};
 var playlist = [];
-var options = {swfPath: api.static + "js/lib/jPlayer", supplied: "mp3", wmode: "window", smoothPlayBar: true, keyEnabled: true};
+var options = {swfPath: api.static + "js/lib/jPlayer", supplied: "oga", wmode: "window", smoothPlayBar: true, keyEnabled: true};
 var jamList = new jPlayerPlaylist(cssSelector, playlist, options);
 jamList.option("enableRemoveControls", true);
 jamList.option
 
 var trackingTracks = []; //variable for tracking all track info that we have in our or jamendos api, should be indexed like players playlist
-
+var isURLtagged;
+var dlocation;
+var doctitle;
 
 // delay function
 var delay = (function(){
@@ -164,17 +165,6 @@ $(function() {
 // CONTROLLERS
     var URLs = can.Control({
         init: function(element, options) {
-            /*
-            $("#pages").on("change", function(){
-                dlocation = $('select option:selected').val();
-                doctitle = $('select option:selected').text();
-                resetPlaylist(jamList.current);
-                urlsControl.refreshList();
-                if(trackingTracks.length <= 1){
-                    setNowPlaying(trackingTracks[0]);
-                }
-            });
-*/
             this.startPlayer();
             this.on($(document), '#pages', 'change', 'startPlayer');
             this.on($(document), '.jam-search', 'keyup', 'searchJamendo');
@@ -184,6 +174,7 @@ $(function() {
             this.on($(document), '.tag', 'click', 'tagNew');
         },
         startPlayer: function(){
+            console.log("sandman!");
             dlocation = $('select option:selected').val();
             doctitle = $('select option:selected').text();
             resetPlaylist();
@@ -211,8 +202,24 @@ $(function() {
                                 if(trackingTracks[0].track_id != track.track.id && (trackingTracks[0].track === undefined  || trackingTracks[0].track.id != track.track.id)){
                                     jamList.add(song, false);
                                     trackingTracks.push(track);
+                                    if(trackingTracks[0].times_tagged){
+                                        trackingTracks[0].times_tagged = 0;
+                                        console.log(trackingTracks[0].times_tagged);
+                                        setNowPlaying(trackingTracks[0]);
+                                    }
+                                    else{
+                                        setNowPlaying(trackingTracks[0]);
+                                    }
                                 }
                                 else{
+                                    if(trackingTracks[0].times_tagged){
+                                        trackingTracks[0].times_tagged = 0;
+                                        console.log(trackingTracks[0].times_tagged);
+                                        setNowPlaying(trackingTracks[0]);
+                                    }
+                                    else{
+                                        setNowPlaying(trackingTracks[0]);
+                                    }
                                 }
                             }
                             else{
@@ -332,13 +339,7 @@ $(function() {
             $('#tag-action-button').addClass("tag-none");
         }
     });
-    var dlocation = $('select option:selected').val();
-    var doctitle = $('select option:selected').text();
     var urlsControl = new URLs('#tracks', {});
-    // $("select").change(function () {
-    //     dlocation = $('select option:selected').val();
-    //     doctitle = $('select option:selected').text();
-    // });
 
 });
 function resetPlaylist(){
@@ -354,14 +355,14 @@ function resetPlaylist(){
     }
     //trackingTracks = trackingTracks.splice(starting, 1);
 */
-    //jamList.option("removeTime", 0);
+    jamList.option("removeTime", 0);
     while (jamList.current > 0){
         jamList.remove(0);
     }
     while (jamList.playlist.length > 1){
         jamList.remove(1);
     }
-    //jamList.option("removeTime", "fast");
+    jamList.option("removeTime", "fast");
 }
 
 function resetNowPlaying() {
@@ -395,7 +396,9 @@ function setNowPlaying(track) {
     $('#now-playing').css('display', 'block');
     $('#jamendo-search-results').css('display', 'none');
     $('#tag-action-button').removeAttr("class");
+    console.log("tt: "+times_tagged);
     if (times_tagged == 0) {
+        console.log("is logged"+isURLtagged);
         if (isURLtagged) {
             $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
             $('#tag-action-button').removeAttr("class");
