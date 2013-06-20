@@ -269,8 +269,6 @@ $(function() {
                                     $.each($(data.results), function(i, track){
                                         $('#result-list').append('<li class="song" style="line-height:1.6;"><a href="'+track.audio+'" class="track-url" data-song-name="'+track.name+'" data-song-id="'+track.id+'" data-artist-name="'+track.artist_name+'" data-album-name="'+track.album_name+'" data-album-image="'+track.album_image+'"><p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p></a></li>');
                                     });
-                                    $('#cont-title').text("searching...");
-                                    $('#cont-info').css('display', 'none');
                                     $('#jamendo-search-results').css('display', 'block');
                                     $('#scrollbar1').tinyscrollbar();
                                 }
@@ -317,7 +315,7 @@ $(function() {
         },
         confirmTag: function(el, ev) {
             ev.preventDefault();
-            $('#np-action-msg').html("Thank you!")
+            $('#tagging-info').html("Thank you!")
             $('#tag-action-button').removeAttr("class");
             $('#tag-action-button').addClass("in-progress");
             tagInfo.create(trackingTracks[jamList.current]);
@@ -326,7 +324,7 @@ $(function() {
         },
         tagExisting: function(el, ev) {
             ev.preventDefault();
-            $('#np-action-msg').html("Thank you!")
+            $('#tagging-info').html("Thank you!")
             $('#tag-action-button').removeAttr("class");
             $('#tag-action-button').addClass("in-progress");
             contentTrack.create(trackingTracks[jamList.current]);
@@ -335,7 +333,7 @@ $(function() {
         },
         tagNew: function(el, ev) {
             ev.preventDefault();
-            $('#np-action-msg').html("Thank you!")
+            $('#tagging-info').html("Thank you!")
             $('#tag-action-button').removeAttr("class");
             $('#tag-action-button').addClass("in-progress");
             URL.create(trackingTracks[jamList.current]);
@@ -388,40 +386,34 @@ function setNowPlaying(track) {
         times_tagged = track.times_tagged;
         track = track.track;
     }
-    $('#np-info').empty();
+    $('#now-playing-div').empty();
     if (track.album_image === "")
-        $('#np-info').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
+        $('#now-playing-div').html('<p class="track-info"><div class="empty-album"></div><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
     else
-        $('#np-info').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
+        $('#now-playing-div').html('<p class="track-info"><img src="'+track.album_image+'" /><span class="artist">Artist: '+track.artist_name+'</span><br /><span class="album">Album: '+track.album_name+'</span><br /><span class="srch-track">Song: '+track.name+'</span></p>');
     $('#scrollbar1').empty();
     $('#scrollbar1').html('<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div><div class="viewport"><div class="overview"><ul id="result-list"><li id="result-songs"></li></ul></div></div>');
     $('#scrollbar1').tinyscrollbar();
     $('#search-box').val('');
-    $('#cont-title').text("now playing...");
-    $('#cont-box').css('display', 'block');
-    $('#cont-info').css('display', 'block')
+    $('#now-playing').css('display', 'block');
     $('#jamendo-search-results').css('display', 'none');
     $('#tag-action-button').removeAttr("class");
     if (times_tagged == 0) {
         if (isURLtagged) {
-            $('#np-action-msg').html('You would be the first one to JamTag this page with this song.');
+            $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
             $('#tag-action-button').removeAttr("class");
             $('#tag-action-button').addClass("retag");
             $('#np-action-img').attr('src', api.static+'img/retag.png');
             $('#np-action-img').attr('alt', 'retag');
         }
         else {
-            $('#np-action-msg').html('This page hasn\'t yet been JamTagged. JamTag it!');
+            $('#tagging-info').html('This page hasn\'t yet been JamTagged. JamTag it!');
             $('#tag-action-button').addClass("tag");
-            $('#np-action-img').attr('src', api.static+'img/tag.png');
-            $('#np-action-img').attr('alt', 'tag');
         };
     }
     else {
-        $('#np-action-msg').html('Other people have already JamTagged this page with this song. Confirm their choice.');
+        $('#tagging-info').html('Other people have already JamTagged this page with this song. Confirm their choice.');
         $('#tag-action-button').addClass("confirm");
-        $('#np-action-img').attr('src', api.static+'img/confirm.png');
-        $('#np-action-img').attr('alt', 'confirm');
     };
     $('#tagging').css('display', 'block');
     //self.port.emit("playing", track.artist_name + ": " + track.name);
