@@ -131,6 +131,14 @@ body {
     height: 32px;
 }
 
+#playlist-loading-indicator {
+    width: 20px;
+    height: 20px;
+    display: inline;
+    float: right;
+    background: url("../img/loading-small.gif");
+}
+
 /*
 #confirm{
     margin-left: 5px;
@@ -252,6 +260,9 @@ body {
     /*right: 0px;*/
     width: 8px; 
     z-index: 1;
+    top: -1px;
+    right: -1px;
+    height: -1px;
 }
 #scrollbar1 .track { 
     /*background-color: rgb(94, 86, 101); */

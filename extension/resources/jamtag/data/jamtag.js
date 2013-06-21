@@ -78,7 +78,13 @@ var URL = can.Model({
             dataType: 'json',
             contentType: 'application/json',
             async: false,
-            crossDomain: true
+            crossDomain: true,
+            beforeSend: function(){
+                $('.jp-playlist ul').append("<li><div><div id='playlist-loading-indicator'></div><span class='jp-playlist-item'>Loading songs...</span></div></li>");
+            },
+            complete: function(){
+                $('.jp-playlist ul li:last-child').remove();
+            }
         });
     },
     create: function(params){
@@ -100,7 +106,17 @@ var URL = can.Model({
             data: postData,
             dataType: 'json',
             async: false,
-            crossDomain: true
+            crossDomain: true,
+            beforeSend: function(){
+                $('#tagging-info').html("Tagging...")
+                $('#tag-action-button').removeAttr("class");
+                $('#tag-action-button').addClass("in-progress");
+            },
+            complete: function(){
+                $('#tagging-info').html("Thank you!")
+                $('#tag-action-button').removeAttr("class");
+                $('#tag-action-button').addClass("tag-none");
+            }
         });
     }
 },{});
@@ -128,7 +144,19 @@ var jamendo = can.Model({
             url: 'http://api.jamendo.com/v3.0/tracks/?client_id={0}&format={1}&limit={2}&audioformat={3}&include={4}&search={5}&groupby={6}&imagesize={7}'.format(clid,frmt,lmt,audiofrmt,incld,srch,grpby,img),
             type: 'get',
             dataType: 'json',
-            async: false
+            async: false,
+            beforeSend: function(){
+                $('#jamendo-search-results').css('display', 'none');
+                $('#result-list').empty();
+                $('#result-list').append("<li><div><div id='playlist-loading-indicator'></div><span class='jp-playlist-item' style='font-size: 12px; font-weight: 200;'>Searching...</span></div></li>");
+                $('#jamendo-search-results').css('display', 'block');
+                $('#scrollbar1').tinyscrollbar();
+            },
+            complete: function(){
+                $('#jamendo-search-results').css('display', 'none');
+                $('#result-list').empty();
+            }
+
         });
         /*
         Prepraviti da testira Headere na određene codove, jer inače se api koristi direktno a ipak trebamo proc i nekakvu validaciju
@@ -151,7 +179,17 @@ var tagInfo = can.Model({
             data: postData,
             dataType: 'json',
             async: false,
-            crossDomain: true
+            crossDomain: true,
+            beforeSend: function(){
+                $('#tagging-info').html("Tagging...")
+                $('#tag-action-button').removeAttr("class");
+                $('#tag-action-button').addClass("in-progress");
+            },
+            complete: function(){
+                $('#tagging-info').html("Thank you!")
+                $('#tag-action-button').removeAttr("class");
+                $('#tag-action-button').addClass("tag-none");
+            }
         });
     }
 }, {});
@@ -181,7 +219,17 @@ var contentTrack = can.Model({
             dataType: 'json',
             contentType: 'application/json',
             async: false,
-            crossDomain: true
+            crossDomain: true,
+            beforeSend: function(){
+                $('#tagging-info').html("Tagging...")
+                $('#tag-action-button').removeAttr("class");
+                $('#tag-action-button').addClass("in-progress");
+            },
+            complete: function(){
+                $('#tagging-info').html("Thank you!")
+                $('#tag-action-button').removeAttr("class");
+                $('#tag-action-button').addClass("tag-none");
+            }
         });
     }
 }, {});
@@ -200,44 +248,41 @@ var URLs = can.Control({
             function (urls) {
                 // what happens when there are no tracks
                 if (urls.length !== 0) {
-                    if (urls.length > 5)
-                        urls = urls.slice(0, 5);
                     isURLtagged = true;
-                    $.each($(urls).attr('content').tracks, function(i, track){
+                    trks = $(urls[0]).attr('content').tracks
+                    if (trks > 5)
+                        trks = trks.slice(0, 5);
+                    $.each(trks, function(i, track){
                         var ttl = '<span>'+track.track.artist_name+' - '+track.track.name+'</span>';
                         var song = {
                             title: ttl,
                             //oga: track.audio,
                             oga: track.track.audio,
                         }
+                        var extended_track = {
+                            track: track.track,
+                            url: urls[0].url
+                        }
                         if(trackingTracks[0] !== undefined){
                             if(trackingTracks[0].track_id != track.track.id && (trackingTracks[0].track === undefined  || trackingTracks[0].track.id != track.track.id)){
                                 jamList.add(song, false);
-                                trackingTracks.push(track);
-                                if(trackingTracks[0].times_tagged){
-                                    trackingTracks[0].times_tagged = 0;
-                                    setNowPlaying(trackingTracks[0]);
+                                trackingTracks.push(extended_track);
+                                if (trackingTracks[0].url != dlocation) {
+                                        trackingTracks[0].times_tagged = 0;
                                 }
-                                else
-                                {
-                                    setNowPlaying(trackingTracks[0]);
-                                }
+                                setNowPlaying(trackingTracks[0]);
                             }
                             else{
-                                if(trackingTracks[0].times_tagged){
+                                if (trackingTracks[0].url != dlocation) {
                                     trackingTracks[0].times_tagged = 0;
-                                    setNowPlaying(trackingTracks[0]);
                                 }
-                                else
-                                {
-                                    setNowPlaying(trackingTracks[0]);
-                                }
+                                setNowPlaying(trackingTracks[0]);
                             }
                         }
                         else{
                             jamList.add(song, true);
-                            trackingTracks.push(track);
-                            setNowPlaying(track);
+                            trackingTracks.push(extended_track);
+                            setNowPlaying(extended_track);
                         }
 
                     });
@@ -324,30 +369,15 @@ var URLs = can.Control({
     },
     confirmTag: function(el, ev) {
         ev.preventDefault();
-        $('#tagging-info').html("Thank you!")
-        $('#tag-action-button').removeAttr("class");
-        $('#tag-action-button').addClass("in-progress");
         tagInfo.create(trackingTracks[jamList.current]);
-        $('#tag-action-button').removeAttr("class");
-        $('#tag-action-button').addClass("tag-none");
     },
     tagExisting: function(el, ev) {
         ev.preventDefault();
-        $('#tagging-info').html("Thank you!")
-        $('#tag-action-button').removeAttr("class");
-        $('#tag-action-button').addClass("in-progress");
         contentTrack.create(trackingTracks[jamList.current]);
-        $('#tag-action-button').removeAttr("class");
-        $('#tag-action-button').addClass("tag-none");
     },
     tagNew: function(el, ev) {
         ev.preventDefault();
-        $('#tagging-info').html("Thank you!")
-        $('#tag-action-button').removeAttr("class");
-        $('#tag-action-button').addClass("in-progress");
         URL.create(trackingTracks[jamList.current]);
-        $('#tag-action-button').removeAttr("class");
-        $('#tag-action-button').addClass("tag-none");
     }
 });
 //INIT
@@ -416,7 +446,6 @@ function setNowPlaying(track) {
     if (times_tagged == 0) {
         if (isURLtagged) {
             $('#tagging-info').html('You would be the first one to JamTag this page with this song.');
-            $('#tag-action-button').removeAttr("class");
             $('#tag-action-button').addClass("retag");
         }
         else {
